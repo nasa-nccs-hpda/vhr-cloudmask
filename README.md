@@ -13,3 +13,9 @@ VHR Cloud Masking
 - [ ] Senegal
 - [ ] Siberia
 - [ ] Yukon_Delta 
+
+## Container Run for Development
+
+```bash
+singularity shell --nv -B /att,/lscratch,/adapt/nobackup/projects/ilab,/adapt/nobackup/people,/lscratch/jacaraba/tmp:/tmp /adapt/nobackup/projects/ilab/containers/tf-container
+```
