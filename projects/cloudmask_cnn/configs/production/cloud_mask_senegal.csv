@@ -1,0 +1,4 @@
+data,label,ntiles
+/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/data_fixed/WV03_20150717_5000-0_data.tif,/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/labels_fixed/WV03_20150717_5000-0_label.tif,2000
+/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/data_fixed/WV02_20200203_M1BS_10300100A2C05D00_CLIPPED.tif,/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/labels_fixed/WV02_20200203_M1BS_10300100A2C05D00_Aki_Training.tif,2000
+/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/data_fixed/WV03_20150717_0-0_data.tif,/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/labels_fixed/WV03_20150717_0-0_label.tif,2000

@@ -1,0 +1,105 @@
+experiment_name: cloudmask-senegal
+experiment_type: cloudmask
+
+data_dir: /lscratch/jacaraba/srlite/cloudmask-test
+
+seed: 42
+gpu_devices: 0,1,2,3
+mixed_precision: True
+xla: False
+
+input_bands:
+  - CoastalBlue
+  - Blue
+  - Green
+  - Yellow
+  - Red
+  - RedEdge
+  - NIR1
+  - NIR2
+
+#input_bands:
+#  - Blue
+#  - Green
+#  - Red
+#  - NIR1
+
+output_bands:
+  - Blue
+  - Green
+  - Red
+  - NIR1
+
+substract_labels: False
+normalize: 10000.0
+
+#modify_labels:
+#  - "x == 0": 8
+#  - "x == 1": 9
+#  - "x == 4": 0
+#  - "x == 3": 0
+#  - "x == 2": 0
+#  - "x == 8": 1
+#  - "x == 9": 2
+
+expand_dims: True
+tile_size: 256
+include_classes: True
+augment: True
+
+# standardization functions: local, global, mixed
+# global standardization
+# mixed standardization
+#standardization: 'local'
+batch_size: 32
+n_classes: 1
+test_size: 0.20
+learning_rate: 0.0001
+max_epochs: 6000
+patience: 10
+
+model: "tensorflow_caney.networks.unet.unet_batchnorm(nclass=1, input_size=(256, 256, 4),maps=[64, 128, 256, 512, 1024])"
+#model: "sm.Unet('resnet34', input_shape=(128, 128, 4), encoder_weights=None, classes=1, activation='sigmoid')"
+
+loss: 'tf.keras.losses.BinaryCrossentropy()'
+#loss: sm.losses.CategoricalFocalLoss
+#loss: sm.losses.categorical_focal_dice_loss
+#loss: sm.losses.categorical_focal_jaccard_loss
+#loss: 'sm.losses.BinaryCELoss()'
+#loss: 'sm.losses.DiceLoss(smooth=1e-08)'
+
+optimizer: tf.keras.optimizers.Adam
+
+metrics:
+  - 'tf.keras.metrics.BinaryAccuracy(threshold=0.5)'
+  - 'tf.keras.metrics.Recall()'
+  - 'tf.keras.metrics.Precision()'
+  - 'sm.metrics.iou_score'
+
+callbacks:
+  - "tf.keras.callbacks.ModelCheckpoint(save_best_only=True, mode='min', monitor='val_loss', filepath='${data_dir}/model/{epoch:02d}-{val_loss:.2f}.hdf5')"
+  - "tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4)"
+  - "tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=False)"
+  - "tf.keras.callbacks.TerminateOnNaN()"
+
+# window_size: 8192
+window_size: 5000
+pred_batch_size: 64
+inference_overlap: 2
+inference_treshold: 0.50
+
+# Prediction location
+#model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/SRLite/41-0.13.hdf5
+#model_filename: /lscratch/jacaraba/srlite/cloudmask-test/model/57-0.05.hdf5
+model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/SRLite/57-0.05.hdf5
+# inference_regex: '/adapt/nobackup/people/zwwillia/SR_lite/SRlite_cloudMasks/CloudMasks/WV02_20110818_M1BS_103001000CCC9000/WV02_20110818_M1BS_1030010001_CLIPPED.tif'
+#inference_regex: '/adapt/nobackup/people/mcarrol2/LCLUC_Senegal/ForKonrad/Tappan02_WV02_20120218_M1BS_103001001077BE00_data.tif'
+#inference_regex: '/adapt/nobackup/people/mcarrol2/LCLUC_Senegal/ForKonrad/*_data.tif'
+# inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/TOA_v2/Siberia/5-toas/*.tif'
+#inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/TOA_v2/Senegal/5-toas/*.tif'
+inference_regex: '/adapt/nobackup/people/mwooten3/Senegal_LCLUC/testForMark/5-toas/WV02_20101020_M1BS_1030010007BBFA00-toa.tif'
+#inference_regex: '/adapt/nobackup/people/mcarrol2/LCLUC_Senegal/ForKonrad/Tappan01_WV02_20121014_M1BS_103001001B793900_data.tif'
+#inference_regex: '/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/data_fixed/WV02_20200203_M1BS_10300100A2C05D00_CLIPPED.tif'
+#inference_regex: '/adapt/nobackup/projects/ilab/projects/Senegal/LCLUC_Senegal_Cloud/data_fixed/WV03_20150717_5000-0_data.tif'
+inference_save_dir: /adapt/nobackup/projects/ilab/projects/Vietnam/Jordan/VIETNAM_PRIORITY/clouds-binary-tensorflow-2022-04-18-senegal-srlite-maggie2
+

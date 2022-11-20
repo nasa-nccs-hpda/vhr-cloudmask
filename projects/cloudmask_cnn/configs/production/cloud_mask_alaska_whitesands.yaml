@@ -1,0 +1,103 @@
+experiment_name: cloudmask-alaska
+experiment_type: cloudmask
+
+data_dir: /lscratch/jacaraba/srlite/clouds-binary-alaska
+model_dir: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska-norm
+
+seed: 42
+gpu_devices: 0,1,2,3
+mixed_precision: True
+xla: False
+
+#input_bands:
+#  - CoastalBlue
+#  - Blue
+#  - Green
+#  - Yellow
+#  - Red
+#  - RedEdge
+#  - NIR1
+#  - NIR2
+
+input_bands:
+  - CoastalBlue
+  - Blue
+  - Green
+  - Yellow
+  - Red
+  - RedEdge
+  - NIR1
+  - NIR2
+
+output_bands:
+  - Blue
+  - Green
+  - Red
+  - NIR1
+
+substract_labels: False
+normalize: 10000.0
+#standardization: 'local'
+
+expand_dims: True
+tile_size: 256
+include_classes: True
+augment: True
+
+# standardization functions: local, global, mixed
+# global standardization
+# mixed standardization
+#standardization: 'local'
+batch_size: 32
+n_classes: 1
+test_size: 0.20
+learning_rate: 0.0001
+max_epochs: 6000
+patience: 10
+
+
+model: "tfc.unet.unet_batchnorm(nclass=1, input_size=(256, 256, 4),maps=[64, 128, 256, 512, 1024])"
+#model: "sm.Unet('resnet34', input_shape=(128, 128, 4), encoder_weights=None, classes=1, activation='sigmoid')"
+
+loss: 'tf.keras.losses.BinaryCrossentropy()'
+#loss: sm.losses.CategoricalFocalLoss
+#loss: sm.losses.categorical_focal_dice_loss
+#loss: sm.losses.categorical_focal_jaccard_loss
+#loss: 'sm.losses.BinaryCELoss()'
+#loss: 'sm.losses.DiceLoss(smooth=1e-08)'
+
+optimizer: tf.keras.optimizers.Adam
+
+metrics:
+  - 'tf.keras.metrics.BinaryAccuracy(threshold=0.5)'
+  - 'tf.keras.metrics.Recall()'
+  - 'tf.keras.metrics.Precision()'
+  - 'sm.metrics.iou_score'
+
+callbacks:
+  - "tf.keras.callbacks.ModelCheckpoint(save_best_only=True, mode='min', monitor='val_loss', filepath='${model_dir}/${experiment_name}{epoch:02d}-{val_loss:.2f}.hdf5')"
+  - "tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4)"
+  - "tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=False)"
+  - "tf.keras.callbacks.TerminateOnNaN()"
+
+# window_size: 8192
+window_size: 5000
+pred_batch_size: 64
+inference_overlap: 2
+inference_treshold: 0.50
+
+# Prediction location
+#model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska/cloudmask-alaska36-0.02.hdf5
+#model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska-std/cloudmask-alaska89-0.01.hdf5
+model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska-norm/cloudmask-alaska25-0.02.hdf5
+#inference_regex: '/adapt/nobackup/people/mwooten3/Senegal_LCLUC/testForMark/5-toas/WV02_20101020_M1BS_1030010007BBFA00-toa.tif'
+#inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/TOA_v4/ahri_plus_p1_UTM3N/5-toas/*.tif'
+#inference_save_dir: /adapt/nobackup/projects/ilab/projects/Vietnam/Jordan/VIETNAM_PRIORITY/clouds-binary-tensorflow-2022-05-02-senegal
+
+
+#inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/TOA_v2/Siberia/5-toas/*.tif'
+#inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/TOA_v2/Siberia/5-toas/WV02_20130218_M1BS_103001001F5AEF00-toa.tif'
+#inference_save_dir: /adapt/nobackup/projects/ilab/projects/Vietnam/Jordan/VIETNAM_PRIORITY/clouds-binary-tensorflow-2022-05-02-siberia
+#inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/YukonDelta/*-toa.tif'
+inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/Whitesands/*M1BS*-toa.tif'
+inference_save_dir: '/adapt/nobackup/projects/ilab/projects/CloudMask/products/srlite/Whitesands'
