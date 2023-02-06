@@ -1,0 +1,21 @@
+#---------------------------------------------------------
+# Random Forest Dataset Configuration File
+#---------------------------------------------------------
+
+# Storage variables
+output_dir: '/Users/jacaraba/Desktop/development/ilab/vhr-cloudmask/data/model'
+predict_dir: '/Users/jacaraba/Desktop/development/ilab/vhr-cloudmask/data/predictions'
+# train_csv: 'rf_training.yml'
+model_filename: 'output.pkl'
+
+# Dataset variables
+dataset_metadata:
+  max_classes: 2
+  bands: ['CB', 'B', 'G', 'Y', 'R', 'RE', 'NIR1', 'NIR2']
+  images_dir: '/Users/jacaraba/Desktop/development/ilab/vhr-cloudmask/data/images/*.tif'
+  labels_dir: '/Users/jacaraba/Desktop/development/ilab/vhr-cloudmask/data/labels/*.tif'
+
+# Model variables
+model_metadata:
+  n_trees: 20
+  max_features: log2

@@ -1,8 +1,8 @@
 name: CI to Docker Hub 
 
-on:
-  release:
-    types: [published]
+#on:
+#  release:
+#    types: [published]
 
 jobs:
 
