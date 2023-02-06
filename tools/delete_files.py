@@ -4,7 +4,8 @@ import rioxarray as rxr
 from pathlib import Path
 
 input_dir = '/adapt/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/data'
-output_dir = '/adapt/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/data_fixed'
+output_dir = \
+    '/adapt/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/data_fixed'
 
 filenames = glob.glob(f'{input_dir}/*.tif')
 counter = 0
