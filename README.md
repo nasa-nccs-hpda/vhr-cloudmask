@@ -1,4 +1,4 @@
-README.md# vhr-cloudmask
+# vhr-cloudmask
 
 Python library to perform semantic segmentation of clouds and cloud shadows using
 very-high resolution remote sensing imagery by means of GPUs and CPU parallelization
@@ -7,7 +7,7 @@ for high performance and commodity base environments.
 We are currently working on tutorials and documentations. Feel to follow this repository
 for documentation updates and upcoming tutorials.
 
-[DOI]
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg)](https://doi.org/10.5281/zenodo.7613207)
 
 ![CI Workflow](https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg)
 ![CI to DockerHub ](https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg)
@@ -19,7 +19,7 @@ for documentation updates and upcoming tutorials.
 ## Objectives
 
 - Library to process remote sensing imagery using GPU and CPU parallelization.
-- Machine Learning and Deep Learning cloud segmentation.
+- Machine learning and deep learning cloud segmentation.
 - Large-scale image inference.
 
 ## Installation
@@ -40,7 +40,7 @@ NVIDIA libraries are installed locally in the system if not using conda.
 ├── examples              <- Examples for utilizing the library
 ├── requirements          <- Requirements for installing the dependencies
 ├── scripts               <- Utility scripts for analysis
-├── terragpu              <- Library source code
+├── vhr_cloudmask         <- Library source code
 ├── README.md             <- The top-level README for developers using this project
 ├── CHANGELOG.md          <- Releases documentation
 ├── LICENSE               <- License documentation
@@ -49,7 +49,9 @@ NVIDIA libraries are installed locally in the system if not using conda.
 
 ## Background
 
-The detection of clouds is one of the first steps in the pre-processing of remotely sensed data. At coarse spatial resolution (> 100 m), clouds are bright and generally distinguishable from other landscape surfaces. At very high-resolution (< 3 m), detecting clouds becomes a significant challenge due to the presence of smaller features, with spectral characteristics similar to other land cover types, and thin (partially transparent) cloud forms. Furthermore, at this resolution, clouds can cover many thousands of pixels, making both the center and boundaries of the clouds prone to pixel contamination and variations in the spectral intensity. Techniques that rely solely on the spectral information of clouds underperform in these situations. In this study, we propose a multi-regional and multi-sensor deep learning approach for the detection of clouds in very high-resolution WorldView satellite imagery. A modified UNet-like convolutional neural network (CNN) was used for the task of semantic segmentation in the regions of Vietnam, Senegal, and Ethiopia strictly using RGB + NIR spectral bands. In addition, we demonstrate the superiority of CNNs cloud predicted mapping accuracy of 81–91%, over traditional methods such as Random Forest algorithms of 57–88%. The best performing UNet model has an overall accuracy of 95% in all regions, while the Random Forest has an overall accuracy of 89%. We conclude with promising future research directions of the proposed methods for a global cloud cover implementation.
+The detection of clouds is one of the first steps in the pre-processing of remotely sensed data. At coarse spatial resolution (> 100 m), clouds are bright and generally distinguishable from other landscape surfaces. At very high-resolution (< 3 m), detecting clouds becomes a significant challenge due to the presence of smaller features, with spectral characteristics similar to other land cover types, and thin (partially transparent) cloud forms. Furthermore, at this resolution, clouds can cover many thousands of pixels, making both the center and boundaries of the clouds prone to pixel contamination and variations in the spectral intensity. Techniques that rely solely on the spectral information of clouds underperform in these situations.
+
+In this study, we propose a multi-regional and multi-sensor deep learning approach for the detection of clouds in very high-resolution WorldView satellite imagery. A modified UNet-like convolutional neural network (CNN) was used for the task of semantic segmentation in the regions of Vietnam, Senegal, and Ethiopia strictly using RGB + NIR spectral bands. In addition, we demonstrate the superiority of CNNs cloud predicted mapping accuracy of 81–91%, over traditional methods such as Random Forest algorithms of 57–88%. The best performing UNet model has an overall accuracy of 95% in all regions, while the Random Forest has an overall accuracy of 89%. We conclude with promising future research directions of the proposed methods for a global cloud cover implementation.
 
 ## Authors
 
@@ -91,7 +93,16 @@ bot the software and the article:
 ```
 
 ```bibtex
-TBD
+@software{jordan_alexis_caraballo_vega_2021_7613207,
+  author       = {Jordan Alexis Caraballo-Vega},
+  title        = {vhr-cloudmask},
+  month        = dec,
+  year         = 2021,
+  publisher    = {Zenodo},
+  version      = {1.0.0},
+  doi          = {10.5281/zenodo.7613207},
+  url          = {https://doi.org/10.5281/zenodo.7613207}
+}
 ```
 
 ## References
