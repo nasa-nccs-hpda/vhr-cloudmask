@@ -10,12 +10,12 @@ with open("README.md", "r") as fh:
 
 setup(
     name='vhr_cloudmask',
-    version='0.0.1',
-    description='Methods for the acceleration of remote sensing satellite imagery',
+    version='1.0.0',
+    description='Methods for deep learning cloud segmentation',
     author='Jordan A. Caraballo-Vega',
     author_email='jordan.a.caraballo-vega@nasa.gov',
     zip_safe=False,
-    url='https://github.com/cist-ai/vhr_cloudmask.git',
+    url='https://github.com/nasa-nccs-hpda/vhr_cloudmask.git',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
