@@ -42,7 +42,10 @@ def run(
     model = load_model(
         model_filename=conf.model_filename,
         model_dir=os.path.join(conf.data_dir, 'model'),
-        custom_objects={'iou_score': sm.metrics.iou_score, '_iou': sm.metrics.iou_score}
+        custom_objects={
+            'iou_score': sm.metrics.iou_score,
+            '_iou': sm.metrics.iou_score
+        }
     )
 
     # Retrieve mean and std, there should be a more ideal place
@@ -234,12 +237,26 @@ def main() -> None:
                         dest='config_file',
                         help='Path to the configuration file')
 
-    parser.add_argument('-d',
-                        '--data-csv',
+    parser.add_argument('-m',
+                        '--model-filename',
                         type=str,
                         required=False,
-                        dest='data_csv',
-                        help='Path to the data CSV configuration file')
+                        dest='model_filename',
+                        help='Path to the model filename')
+
+    parser.add_argument('-o',
+                        '--output-dir',
+                        type=str,
+                        required=False,
+                        dest='output_dir',
+                        help='Path to output directory')
+
+    parser.add_argument('-r',
+                        '--raster-regex',
+                        type=str,
+                        required=False,
+                        dest='raster_regex',
+                        help='Raster regex to perform inference on')
 
     args = parser.parse_args()
 
@@ -266,7 +283,7 @@ def main() -> None:
     seed_everything(conf.seed)
 
     # Call run for preprocessing steps
-    run(args, conf)
+    #run(args, conf)
 
     return
 
