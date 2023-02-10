@@ -241,6 +241,7 @@ def main() -> None:
                         '--model-filename',
                         type=str,
                         required=False,
+                        default=None,
                         dest='model_filename',
                         help='Path to the model filename')
 
@@ -248,6 +249,7 @@ def main() -> None:
                         '--output-dir',
                         type=str,
                         required=False,
+                        default=None,
                         dest='output_dir',
                         help='Path to output directory')
 
@@ -255,6 +257,7 @@ def main() -> None:
                         '--raster-regex',
                         type=str,
                         required=False,
+                        default=None,
                         dest='raster_regex',
                         help='Raster regex to perform inference on')
 

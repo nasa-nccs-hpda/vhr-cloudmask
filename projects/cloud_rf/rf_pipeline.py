@@ -21,8 +21,6 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 import rioxarray as rxr
-# import rasterio as rio
-# import rasterio.features as riofeat
 from scipy.ndimage import median_filter, binary_fill_holes
 
 from sklearn.model_selection import train_test_split
@@ -346,29 +344,6 @@ def main():
             y_train = cf.Series(y_train.values)
             rf_funct = cumlRFC  # RF Classifier
 
-            # TODO: multi gpu setup
-            # https://github.com/rapidsai/cuml/blob/branch-21.12/notebooks/random_forest_mnmg_demo.ipynb
-            # cluster = LocalCUDACluster(
-            # threads_per_worker=1, n_workers=n_workers)
-            # c = Client(cluster)
-            # workers = c.has_what().keys()
-            # rf_funct = cumlRFC_mg
-
-            # Shard the data across all workers
-            # X_train_df, y_train_df = dask_utils.persist_across_workers(
-            # c,[X_train_df,y_train_df],workers=workers)
-
-            # Build and train the model
-            # cu_rf_mg = cuRFC_mg(**cu_rf_params)
-            # cu_rf_mg.fit(X_train_df, y_train_df)
-
-            # Check the accuracy on a test set
-            # cu_rf_mg_predict = cu_rf_mg.predict(X_test)
-            # acc_score = accuracy_score(
-            # cu_rf_mg_predict, y_test, normalize=True)
-            # c.close()
-            # cluster.close()
-
         else:
             logging.info('Training model via SKLearn.')
             rf_funct = sklRFC
@@ -457,9 +432,6 @@ def main():
                     prediction = denoise(np.uint8(prediction))
                     prediction = binary_fill(prediction)
                     prediction = grow(np.uint8(prediction))
-                    # riofeat.sieve(prediction, 800, prediction, None, 8)
-                    # prediction = median_filter(
-                    #   cp.asarray(prediction), size=20)
 
                 img = img.transpose("y", "x", "band")
                 img = img.drop(
