@@ -5,14 +5,17 @@ import argparse
 import numpy as np
 import pandas as pd
 import geopandas as gpd
-import xarray as xr
 import rasterio as rio
 import rioxarray as rxr
 from pathlib import Path
 from sklearn.metrics import accuracy_score, jaccard_score, confusion_matrix
 from sklearn.metrics import precision_score, recall_score
 
-# python validation.py --image-regex '/Users/jacaraba/Desktop/holidays_work/senegal/validation/*.gpkg' --label-regex '/Users/jacaraba/Desktop/results_mosaic_v2' --output-dir /Users/jacaraba/Desktop/holidays_work/senegal/validation_scores
+# python validation.py --image-regex \
+# '/Users/jacaraba/Desktop/holidays_work/senegal/validation/*.gpkg' \
+# --label-regex '/Users/jacaraba/Desktop/results_mosaic_v2' \
+# --output-dir /Users/jacaraba/Desktop/holidays_work/senegal/validation_scores
+
 
 def arr_to_tif(raster_f, segments, out_tif='s.tif', ndval=-10001):
     """
@@ -83,29 +86,24 @@ def main():
     # -------------------------------------------------------------------------
     # Get list of data and label files
     images_list = sorted(glob.glob(args.images_regex))
-    #labels_list = sorted(glob.glob(args.labels_regex))
-    #print(len(images_list))#, len(labels_list))
 
     # Setup output directory
     os.makedirs(args.output_dir, exist_ok=True)
-
-    # /Users/jacaraba/Desktop/results_mosaic_v2 - all images
-    # /Users/jacaraba/Desktop/holidays_work/senegal/validation/*.gpkg
 
     all_sets = []
     for image_filename in images_list:
 
         # open geopackage
         points_df = gpd.read_file(image_filename)
-        #print(points_df['mask'], points_df['geometry'])
 
         # open expected filename
-        label_filename = os.path.join(args.labels_regex, f'{Path(image_filename).stem}_clouds.tif')
+        label_filename = os.path.join(
+            args.labels_regex, f'{Path(image_filename).stem}_clouds.tif')
 
         if not Path(label_filename).is_file():
-            label_filename = os.path.join(args.labels_regex, f'{Path(image_filename).stem}.tif')
-        
-        #label_filename = os.path.join(args.labels_regex, f'{Path(image_filename).stem}.tif')
+            label_filename = os.path.join(
+                args.labels_regex, f'{Path(image_filename).stem}.tif')
+
         rds = rxr.open_rasterio(label_filename)
         rds = rds[0, :, :]
 
@@ -113,21 +111,22 @@ def main():
         for index in points_df.index:
 
             val = rds.sel(
-                x=points_df['geometry'][index].x, y=points_df['geometry'][index].y, method="nearest"
+                x=points_df['geometry'][index].x,
+                y=points_df['geometry'][index].y,
+                method="nearest"
             )
-            #print(val.values, points_df['mask'][index])
             val_values.append(int(val.values))
 
         points_df['val'] = val_values
 
         all_sets.append(points_df)
-    
-    all_sets_concat = pd.concat(all_sets)
-    #print(all_sets_concat)
-    #print(all_sets_concat['val'].sum() / all_sets_concat['mask'].sum())
 
-    accuracy = accuracy_score(all_sets_concat['mask'], all_sets_concat['val'])
-    precision = precision_score(all_sets_concat['mask'], all_sets_concat['val'])
+    all_sets_concat = pd.concat(all_sets)
+
+    accuracy = accuracy_score(
+        all_sets_concat['mask'], all_sets_concat['val'])
+    precision = precision_score(
+        all_sets_concat['mask'], all_sets_concat['val'])
     recall = recall_score(all_sets_concat['mask'], all_sets_concat['val'])
     jaccard = jaccard_score(all_sets_concat['mask'], all_sets_concat['val'])
     confs = confusion_matrix(all_sets_concat['mask'], all_sets_concat['val'])
@@ -140,18 +139,38 @@ def main():
     print(f'jacc: {jaccard}')
     print(confs)
 
-    print("Total producer left: ", confs[0, 0], confs[1, 0], confs[0, 0] + confs[1, 0])
-    print("Total producer right: ", confs[0, 1], confs[1, 1], confs[0, 1] + confs[1, 1])
-    print("Total user up: ", confs[0, 0], confs[0, 1], confs[0, 0] + confs[0, 1])
-    print("Total user down: ", confs[1, 0], confs[1, 1], confs[1, 0] + confs[1, 1])
+    print(
+        "Total producer left: ", confs[0, 0],
+        confs[1, 0], confs[0, 0] + confs[1, 0])
+    print(
+        "Total producer right: ", confs[0, 1],
+        confs[1, 1], confs[0, 1] + confs[1, 1])
+    print(
+        "Total user up: ", confs[0, 0],
+        confs[0, 1], confs[0, 0] + confs[0, 1])
+    print(
+        "Total user down: ", confs[1, 0],
+        confs[1, 1], confs[1, 0] + confs[1, 1]
+    )
+    print(
+        "Producer accuracy not cloud",
+        confs[0, 0] / (confs[0, 0] + confs[1, 0]))
+    print(
+        "Producer accuracy cloud",
+        confs[1, 1] / (confs[0, 1] + confs[1, 1]))
 
-    print("Producer accuracy not cloud", confs[0, 0] / (confs[0, 0] + confs[1, 0]))
-    print("Producer accuracy cloud", confs[1, 1] / (confs[0, 1] + confs[1, 1]))
+    print(
+        "User accuracy not cloud",
+        confs[0, 0] / (confs[0, 0] + confs[0, 1]))
+    print(
+        "User accuracy cloud",
+        confs[1, 1] / (confs[1, 0] + confs[1, 1]))
 
-    print("User accuracy not cloud", confs[0, 0] / (confs[0, 0] + confs[0, 1]))
-    print("User accuracy cloud", confs[1, 1] / (confs[1, 0] + confs[1, 1]))
-
-    print("overall accuracy", (confs[0, 0] + confs[1, 1]) / (confs[0, 0] + confs[0, 1] + confs[1, 0] + confs[1, 1]))
+    print(
+        "overall accuracy",
+        (confs[0, 0] + confs[1, 1]) /
+        (confs[0, 0] + confs[0, 1] + confs[1, 0] + confs[1, 1])
+    )
 
     return
 
