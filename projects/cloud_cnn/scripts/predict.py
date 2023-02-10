@@ -286,7 +286,7 @@ def main() -> None:
     seed_everything(conf.seed)
 
     # Call run for preprocessing steps
-    #run(args, conf)
+    # run(args, conf)
 
     return
 

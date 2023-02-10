@@ -1,5 +1,5 @@
 # --------------------------------------------------------------------------
-# Prediction of vhr data. This assumes you provide
+# Training of vhr data. This assumes you provide
 # a configuration file with required parameters and files.
 # --------------------------------------------------------------------------
 import os
