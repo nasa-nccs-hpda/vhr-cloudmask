@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='vhr_cloudmask',
-    version='0.0.1',
+    version='1.0.2',
     description='Methods for tensorflow deep learning applications.',
     author='Jordan A. Caraballo-Vega',
     author_email='jordan.a.caraballo-vega@nasa.gov',
