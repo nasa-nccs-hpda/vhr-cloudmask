@@ -1,20 +1,11 @@
-# Import tensorflow-caney image
-FROM tensorflow-caney:latest
+FROM nasanccs/tensorflow-caney:latest
+LABEL maintainer="jordan.a.caraballo-vega@nasa.gov"
 
-# Ubuntu needs noninteractive to be forced
-ENV DEBIAN_FRONTEND noninteractive
+ENV TFC_VERSION=0.1.1
+ENV VHR_CNN_CHM_VERSION=main
 
-RUN apt-get update && apt-get -y dist-upgrade && \
-    apt-get -y install build-essential libsm6 libxext6 libxrender-dev libfontconfig1 && \
-    apt-get -y autoremove && \
-    rm -rf /var/cache/apt
-
-# Pip
-#RUN pip --no-cache-dir install omegaconf rasterio rioxarray xarray geopandas \
-#    opencv-python opencv-python-headless opencv-contrib-python opencv-contrib-python-headless \
-#    tifffile webcolors Pillow seaborn xgboost segmentation-models && \
-#    #pip uninstall -y cupy-cuda114 && pip install cupy-cuda115
+RUN pip install git+https://github.com/dshean/pygeotools.git@master \
+        git+https://github.com/nasa-nccs-hpda/vhr-cloudmask.git@main
 
 HEALTHCHECK NONE
-ENTRYPOINT []
-CMD ["/bin/bash"]
+ENTRYPOINT [""]

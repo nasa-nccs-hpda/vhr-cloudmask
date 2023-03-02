@@ -22,6 +22,7 @@ from tensorflow_caney.utils.system import seed_everything
 from tensorflow_caney.utils.model import load_model
 
 from tensorflow_caney.utils.data import modify_bands
+from tensorflow_caney.utils.data import get_mean_std_metadata
 from tensorflow_caney.utils import indices
 from tensorflow_caney.inference import inference
 
@@ -143,6 +144,8 @@ def run(
             # Remove no-data values to account for edge effects
             temporary_tif = xr.where(image > -100, image, 600)
 
+            logging.info("I passed no-data check, moving to prediction")
+
             # Perform prediction of raster
             prediction = inference.sliding_window_tiler_multiclass(
                 xraster=temporary_tif,
@@ -158,6 +161,8 @@ def run(
                 probability_map=conf.probability_map
             )
 
+            logging.info("I passed prediction, moving to image drop")
+
             # prediction = inference.sliding_window_tiler(
             #    xraster=temporary_tif,
             #    model=model,
@@ -171,8 +176,7 @@ def run(
             # Drop image band to allow for a merge of mask
             image = image.drop(
                 dim="band",
-                labels=image.coords["band"].values[1:],
-                drop=True
+                labels=image.coords["band"].values[1:]
             )
 
             # Get metadata to save raster
@@ -193,9 +197,6 @@ def run(
             prediction = prediction.where(image != nodata)
             prediction.rio.write_nodata(
                 conf.prediction_nodata, encoded=True, inplace=True)
-
-            # TODO: ADD CLOUDMASKING STEP HERE
-            # REMOVE CLOUDS USING THE CURRENT MASK
 
             # Save COG file to disk
             prediction.rio.to_raster(
@@ -286,7 +287,7 @@ def main() -> None:
     seed_everything(conf.seed)
 
     # Call run for preprocessing steps
-    # run(args, conf)
+    run(args, conf)
 
     return
 
