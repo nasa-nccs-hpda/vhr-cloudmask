@@ -1,0 +1,47 @@
+[project]
+name = "vhr-cloudmask"
+authors = [
+    {name = "Jordan A. Caraballo-Vega", email = "jordan.a.caraballo-vega@nasa.gov"},
+]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.7"
+dynamic = ["version", "description"]
+
+[build-system]
+requires = [
+    "setuptools >= 40.6.0",
+    "setuptools_scm[toml] >= 4, <6",
+    "setuptools_scm_git_archive",
+    "setuptools-git-versioning",
+    "poetry",
+    "wheel",
+    "omegaconf",
+    "segmentation-models",
+    "xarray",
+    "rioxarray",
+    "numba",
+    "tensorflow-caney @ git+https://github.com/nasa-nccs-hpda/tensorflow-caney.git@main",
+    "pygeotools @ git+https://github.com/dshean/pygeotools.git@master"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "vhr_cloudmask/version.py"
+
+[tool.coverage.run]
+branch = true
+relative_files = true
+source = ['vhr_cloudmask']
+omit = ['vhr_cloudmask/version.py']
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 95
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
