@@ -51,9 +51,6 @@ fail_under = 95
 line-length = 88
 target-version = ['py38']
 
-[tool.setuptools.dynamic]
-version = {attr = "vhr_cloudmask.version.__version__"}
-
 [project.scripts]
 cloudmask_cnn_pipeline = 'vhr_cloudmask.view.cloudmask_cnn_pipeline_cli:main'
 cloudmask_rf_pipeline = 'vhr_cloudmask.view.cloudmask_rf_pipeline_cli:main'
