@@ -3,7 +3,6 @@ name = "vhr-cloudmask"
 authors = [
     {name = "Jordan A. Caraballo-Vega", email = "jordan.a.caraballo-vega@nasa.gov"},
 ]
-description = "Methods for tensorflow deep learning applications"
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
