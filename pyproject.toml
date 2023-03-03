@@ -3,12 +3,14 @@ name = "vhr-cloudmask"
 authors = [
     {name = "Jordan A. Caraballo-Vega", email = "jordan.a.caraballo-vega@nasa.gov"},
 ]
+description = "Methods for tensorflow deep learning applications"
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
 requires-python = ">=3.7"
+keywords = ["cloudmask", "machine-learning"]
 dynamic = ["version", "description"]
 
 [build-system]
@@ -45,3 +47,14 @@ fail_under = 95
 [tool.black]
 line-length = 88
 target-version = ['py38']
+
+[tool.setuptools.dynamic]
+version = {attr = "vhr_cloudmask.version.py"}
+
+[project.scripts]
+cloudmask_cnn_pipeline = 'vhr_cloudmask.view.cloudmask_cnn_pipeline_cli:main'
+cloudmask_rf_pipeline = 'vhr_cloudmask.view.cloudmask_rf_pipeline_cli:main'
+
+[project.optional-dependencies]
+test = ['pytest', 'coverage[toml]', 'black']
+docs = ['pdoc==8.0.1']
