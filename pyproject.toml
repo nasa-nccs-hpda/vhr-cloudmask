@@ -52,8 +52,8 @@ line-length = 88
 target-version = ['py38']
 
 [project.scripts]
-cloudmask_cnn_pipeline = 'vhr_cloudmask.view.cloudmask_cnn_pipeline_cli:main'
-cloudmask_rf_pipeline = 'vhr_cloudmask.view.cloudmask_rf_pipeline_cli:main'
+cloudmask_cnn_cli = 'vhr_cloudmask.view.cloudmask_cnn_pipeline_cli:main'
+cloudmask_rf_cli = 'vhr_cloudmask.view.cloudmask_rf_pipeline_cli:main'
 
 [project.optional-dependencies]
 test = ['pytest', 'coverage[toml]', 'black']
