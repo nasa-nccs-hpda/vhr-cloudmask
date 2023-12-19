@@ -77,8 +77,9 @@ pip install -U vhr-cloudmask
 ### Running Inference of Clouds
 
 Use the following command if you need to perform inference using a regex that points
-to the necessary files. The following is a singularity exec command with options from
-both Singularity and the cloud masking application.
+to the necessary files and by leveraging the default global model. The following is
+a singularity exec command with options from both Singularity and the cloud masking
+application.
 
 Singularity options:
 - '-B': mounts a filesystem from the host into the container
@@ -87,14 +88,14 @@ Singularity options:
 vhr_cloumask_cli options:
 - '-r': list of regex strings to find geotiff files to predict from
 - '-o': output directory to store cloud masks
-- '': 
+- '-s': pipeline step, to generate masks only we want to predict
 
 ```bash
 singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
-  /explore/nobackup/projects/ilab/containers/vhr-cloudmask \
-  vhr-cloudmask-cli -r '' \
-  -o '' \
-  -xxxxxxxxxxxxxxxxxx
+  /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli \
+  -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
+  -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
+  -s predict
 ```
 
 To predict via slurm for a large set of files, use the following script which will start a large number
