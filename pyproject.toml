@@ -1,60 +1,6 @@
-[project]
-name = "vhr-cloudmask"
-authors = [
-    {name = "Jordan A. Caraballo-Vega", email = "jordan.a.caraballo-vega@nasa.gov"},
-]
-description = "Methods for tensorflow deep learning applications"
-readme = "README.md"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
-]
-requires-python = ">=3.7"
-keywords = ["cloudmask", "machine-learning"]
-dynamic = ["version"]
-
 [build-system]
-requires = [
-    "setuptools >= 40.6.0",
-    "setuptools_scm[toml] >= 4, <6",
-    "setuptools_scm_git_archive",
-    "setuptools-git-versioning",
-    "poetry",
-    "wheel",
-    "omegaconf",
-    "segmentation-models",
-    "xarray",
-    "rioxarray",
-    "numba",
-    "tensorflow-caney @ git+https://github.com/nasa-nccs-hpda/tensorflow-caney.git@main",
-    "pygeotools @ git+https://github.com/dshean/pygeotools.git@master"
-]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools]
-packages = ["vhr_cloudmask"]
-
-[tool.setuptools_scm]
-write_to = "vhr_cloudmask/version.py"
-
-[tool.coverage.run]
-branch = true
-relative_files = true
-source = ['vhr_cloudmask']
-omit = ['vhr_cloudmask/version.py']
-
-[tool.coverage.report]
-show_missing = true
-fail_under = 95
+# Minimum requirements for the build system to execute.
+requires = ["setuptools", "wheel"]
 
 [tool.black]
-line-length = 88
-target-version = ['py38']
-
-[project.scripts]
-cloudmask_cnn_cli = 'vhr_cloudmask.view.cloudmask_cnn_pipeline_cli:main'
-cloudmask_rf_cli = 'vhr_cloudmask.view.cloudmask_rf_pipeline_cli:main'
-
-[project.optional-dependencies]
-test = ['pytest', 'coverage[toml]', 'black']
-docs = ['pdoc==8.0.1']
+target_version = ['py39']

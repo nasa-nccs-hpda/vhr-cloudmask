@@ -53,6 +53,73 @@ The detection of clouds is one of the first steps in the pre-processing of remot
 
 In this study, we propose a multi-regional and multi-sensor deep learning approach for the detection of clouds in very high-resolution WorldView satellite imagery. A modified UNet-like convolutional neural network (CNN) was used for the task of semantic segmentation in the regions of Vietnam, Senegal, and Ethiopia strictly using RGB + NIR spectral bands. In addition, we demonstrate the superiority of CNNs cloud predicted mapping accuracy of 81–91%, over traditional methods such as Random Forest algorithms of 57–88%. The best performing UNet model has an overall accuracy of 95% in all regions, while the Random Forest has an overall accuracy of 89%. We conclude with promising future research directions of the proposed methods for a global cloud cover implementation.
 
+## Container
+
+All Python and GPU depenencies are installed in an OCI compliant Docker image. You can
+download this image into a Singularity format to use in HPC systems.
+
+```bash
+singularity pull docker://nasanccs/vhr-cloudmask:latest
+```
+
+In some cases, HPC systems require Singularity containers to be built as sandbox environments because
+of uid issues. For that you can:
+
+```bash
+singularity build --sandbox vhr-cloudmask docker://nasanccs/vhr-cloudmask:latest
+```
+
+## Pipeline Details
+
+Use the following command if you need to perform inference using a regex that points
+to the necessary files:
+
+```bash
+singularity exec --nv -B $NOBACKUP,/lscratch,/explore/nobackup/people,/explore/nobackup/projects \
+  /explore/nobackup/projects/ilab/containers/vhr-cloudmask \
+  vhr-cloudmask-cli -r '' \
+  -o '' \
+  -xxxxxxxxxxxxxxxxxx
+```
+
+To predict via slurm for a large set of files, use the following script which will start a large number
+of jobs (up to your processing limit), and process the remaining files.
+
+```bash
+bash /explore/nobackup/people/jacaraba/development/vhr-cloudmask/projects/cloud_cnn/slurm/slurm_all.sh
+```
+
+## Development Pipeline Details
+
+### Running Inference
+
+Once we have trained a model, we will want to perform inference. The following command is an example
+command to run inference given an already predetermined model.
+
+```bash
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/lscratch,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/above-shrubs.2023.07 python /explore/nobackup/people/jacaraba/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -c /explore/nobackup/people/jacaraba/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml -s predict
+```
+
+If you do not have access to modify the configuration file, or just need to perform small changes to the model selection,
+the regex to the files to predict, or the output directory, manually specify the arguments to the CLI file:
+
+```bash
+
+```
+
+## Data Locations where this Workflow has been Validated
+
+table here
+
+Senegal
+Vietnam
+Ethiopia
+Oregon
+Alaska
+Whitesands
+Siberia
+etc
+
 ## Authors
 
 - Jordan Alexis Caraballo-Vega, jordan.a.caraballo-vega@nasa.gov

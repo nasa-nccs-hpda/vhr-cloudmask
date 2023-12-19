@@ -1,3 +1,3 @@
-from .version import __version__
-
-__version__ = __version__
+__author__ = """Jordan A. Caraballo-Vega"""
+__email__ = "jordan.a.caraballo-vega@nasa.gov"
+__version__ = "1.1.0"
