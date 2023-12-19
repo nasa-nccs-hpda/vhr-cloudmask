@@ -3,7 +3,7 @@ import time
 import logging
 import argparse
 from tensorflow_caney.model.pipelines.cnn_segmentation import \
-    CNNSegmentation as CloudmaskPipeline
+    CNNSegmentation as CloudMaskPipeline
 
 
 # -----------------------------------------------------------------------------
@@ -20,19 +20,18 @@ def main():
     parser.add_argument('-c',
                         '--config-file',
                         type=str,
-                        required=True,
+                        required=False,
                         dest='config_file',
                         help='Path to the configuration file')
 
     parser.add_argument('-d',
                         '--data-csv',
                         type=str,
-                        required=True,
+                        required=False,
                         dest='data_csv',
                         help='Path to the data configuration file')
 
-    parser.add_argument(
-                        '-s',
+    parser.add_argument('-s',
                         '--step',
                         type=str,
                         nargs='*',
@@ -42,13 +41,27 @@ def main():
                         default=['preprocess', 'train', 'predict'],
                         choices=['preprocess', 'train', 'predict'])
 
+    parser.add_argument('-m',
+                        '--model-filename',
+                        type=str,
+                        required=False,
+                        dest='model_filename',
+                        help='Path to model file')
+
+    parser.add_argument('-o',
+                        '--output-dir',
+                        type=str,
+                        required=False,
+                        dest='output_dir',
+                        help='Path to output directory')
+
     args = parser.parse_args()
 
     # Setup timer to monitor script execution time
     timer = time.time()
 
     # Initialize pipeline object
-    pipeline = CloudmaskPipeline(args.config_file, args.data_csv)
+    pipeline = CloudMaskPipeline(args.config_file, args.data_csv)
 
     # Regression CHM pipeline steps
     if "preprocess" in args.pipeline_step:
