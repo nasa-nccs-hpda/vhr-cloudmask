@@ -38,14 +38,14 @@ for high performance and commodity base environments.
 - `References`_
 
 Objectives
-------------
+============
 
 * Library to process remote sensing imagery using GPU and CPU parallelization.
 * Machine learning and deep learning cloud segmentation of VHR imagery.
 * Large-scale image inference.
 
 Background
-------------
+============
 
 The detection of clouds is one of the first steps in the pre-processing of remotely sensed data.
 At coarse spatial resolution (> 100 m), clouds are bright and generally distinguishable from other
@@ -66,13 +66,14 @@ Random Forest has an overall accuracy of 89%. We conclude with promising future 
 the proposed methods for a global cloud cover implementation.
 
 Getting Started
------------------
+=================
 
 The main recommended avenue for using vhr-cloudmask is through the publicly available set of containers
 provided via this repository. If containers are not an option for your setup, follow the installation
 instructions via PIP.
 
-### Downloading the Container
+Downloading the Container
+---------------------------
 
 All Python and GPU depenencies are installed in an OCI compliant Docker image. You can
 download this image into a Singularity format to use in HPC systems.
@@ -92,7 +93,8 @@ singularity build --sandbox vhr-cloudmask docker://nasanccs/vhr-cloudmask:latest
 If you have done this step, you can skip the Installation step since the containers already
 come with all dependencies installed.
 
-### Installation
+Installation
+--------------
 
 vhr-cloudmask can be installed by itself, but instructions for installing the full environments
 are listed under the requirements directory so projects, examples, and notebooks can be run.
@@ -114,7 +116,8 @@ you can run the following command in your terminal:
 pip install -U vhr-cloudmask
 ```
 
-### Running Inference of Clouds
+Running Inference of Clouds
+------------------------------
 
 Use the following command if you need to perform inference using a regex that points
 to the necessary files and by leveraging the default global model. The following is
@@ -145,7 +148,8 @@ of jobs (up to your processing limit), and process the remaining files.
 for i in {0..64}; do sbatch --mem-per-cpu=10240 -G1 -c10 -t05-00:00:00 -J clouds --wrap="singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' -s predict"; done
 ```
 
-## Infrastructure
+Infrastructure
+=================
 
 The vhr-cloudmask package is a set of CLI tools and Jupyter-based notebooks to manage and
 structure the validation of remote sensing data. The CLI tools can be run from inside a container
@@ -156,7 +160,8 @@ inference of imagery. If no GPU is available, the process will continue as expec
 slowdown. There are no minimum system memory requirements given the sliding window procedures
 implemented in the inference process.
 
-## Package Structure
+Package Structure
+====================
 
 ``` bash
 ├── archives              <- Legacy code stored to historical reference
@@ -173,7 +178,8 @@ implemented in the inference process.
 └── setup.py              <- Script to install library
 ```
 
-## Data Locations where this Workflow has been Validated
+Data Locations where this Workflow has been Validated
+========================================================
 
 The vhr-cloudmask workflow has been validated in the following study areas
 using WorldView imagery. Additional areas will be included into our validation
@@ -187,7 +193,8 @@ suite as part of upcoming efforts to improve the scalability of our models.
 - Whitesands
 - Siberia
 
-## Development Pipeline Details
+Development Pipeline Details
+==============================
 
 When performing development (training a model, preprocessing, etc.), we want to run from the 
 dev container so we can add the Python files to the PYTHONPATH. The following commmand is an example
@@ -216,18 +223,21 @@ singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBAC
   -s predict
 ```
 
-## Authors
+Authors
+====================
 
 - Jordan Alexis Caraballo-Vega, jordan.a.caraballo-vega@nasa.gov
 - Caleb S. Spradlin, caleb.s.spradlin@nasa.gov
 - Margaret Wooten, margaret.wooten@nasa.gov
 
-## Contributors
+Contributors
+====================
 
 - Andrew Weis, aweis1998@icloud.com
 - Brian Lee, brianlee52@bren.ucsb.edu
 
-## Contributing
+Contributing
+====================
 
 Please see our [guide for contributing to vhr-cloudmask](CONTRIBUTING.md). Contributions
 are welcome, and they are greatly appreciated! Every little bit helps, and credit will
@@ -235,7 +245,8 @@ always be given.
 
 You can contribute in many ways:
 
-### Report Bugs
+Report Bugs
+-------------
 
 Report bugs at https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues.
 
@@ -244,22 +255,26 @@ If you are reporting a bug, please include:
 - Any details about your local setup that might be helpful in troubleshooting.
 - Detailed steps to reproduce the bug.
 
-### Fix Bugs
+Fix Bugs
+-------------
 
 Look through the GitHub issues for bugs. Anything tagged with "bug" and
 "help wanted" is open to whoever wants to implement it.
 
-### Implement Features
+Implement Features
+--------------------
 
 Look through the GitHub issues for features. Anything tagged with "enhancement" and "help wanted" is
 open to whoever wants to implement it.
 
-### Write Documentation
+Write Documentation
+------------------------
 
 vhr-cloudmask could always use more documentation, whether as part of the official vhr-cloudmask docs,
 in docstrings, or even on the web in blog posts, articles, and such.
 
-### Submit Feedback
+Submit Feedback
+--------------------
 
 The best way to send feedback is to file an issue at https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues.
 
@@ -268,7 +283,8 @@ If you are proposing a feature:
 - Keep the scope as narrow as possible, to make it easier to implement.
 - Remember that this is a volunteer-driven project, and that contributions are welcome :)
 
-## References
+References
+==============
 
 Tutorials will be published under [Medium](https://medium.com/@jordan.caraballo/) for additional support
 and development, including how to use the library or any upcoming releases.
@@ -276,7 +292,8 @@ and development, including how to use the library or any upcoming releases.
 Please consider citing this when using vhr-cloudmask in a project. You can use the citation BibTeX to site
 bot the software and the article:
 
-### Paper
+Paper
+-----------
 
 ```bibtex
 @article{caraballo2023optimizing,
@@ -290,7 +307,8 @@ bot the software and the article:
 }
 ```
 
-### Software
+Software
+-----------
 
 ```bibtex
 @software{jordan_alexis_caraballo_vega_2021_7613207,
@@ -305,7 +323,8 @@ bot the software and the article:
 }
 ```
 
-### Additional References
+Additional References
+-----------------------
 
 [1] Raschka, S., Patterson, J., & Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.
 
