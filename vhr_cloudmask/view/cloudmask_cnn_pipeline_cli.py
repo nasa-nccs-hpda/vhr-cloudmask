@@ -2,8 +2,8 @@ import sys
 import time
 import logging
 import argparse
-from tensorflow_caney.model.pipelines.cnn_segmentation import \
-    CNNSegmentation as CloudMaskPipeline
+from vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline import \
+    CloudMaskPipeline
 
 
 # -----------------------------------------------------------------------------
@@ -21,6 +21,7 @@ def main():
                         '--config-file',
                         type=str,
                         required=False,
+                        default=None,
                         dest='config_file',
                         help='Path to the configuration file')
 
@@ -28,6 +29,7 @@ def main():
                         '--data-csv',
                         type=str,
                         required=False,
+                        default=None,
                         dest='data_csv',
                         help='Path to the data configuration file')
 
@@ -45,15 +47,26 @@ def main():
                         '--model-filename',
                         type=str,
                         required=False,
+                        default=None,
                         dest='model_filename',
                         help='Path to model file')
 
     parser.add_argument('-o',
                         '--output-dir',
                         type=str,
+                        default=None,
                         required=False,
                         dest='output_dir',
                         help='Path to output directory')
+
+    parser.add_argument('-r',
+                        '--regex-list',
+                        type=str,
+                        nargs='*',
+                        required=False,
+                        dest='inference_regex_list',
+                        help='Inference regex list',
+                        default=['*.tif'])
 
     args = parser.parse_args()
 
@@ -61,7 +74,13 @@ def main():
     timer = time.time()
 
     # Initialize pipeline object
-    pipeline = CloudMaskPipeline(args.config_file, args.data_csv)
+    pipeline = CloudMaskPipeline(
+        args.config_file,
+        args.data_csv,
+        args.model_filename,
+        args.output_dir,
+        args.inference_regex_list
+    )
 
     # Regression CHM pipeline steps
     if "preprocess" in args.pipeline_step:
