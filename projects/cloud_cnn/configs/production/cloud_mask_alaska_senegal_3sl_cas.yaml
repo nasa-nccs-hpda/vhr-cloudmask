@@ -2,7 +2,7 @@ experiment_name: cloudmask-alaska
 experiment_type: cloudmask
 
 data_dir: /lscratch/jacaraba/srlite/clouds-binary-alaska
-model_dir: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska-norm
+model_dir: /explore/nobackup/projects/ilab/projects/CloudMask/development/alaska-norm
 
 seed: 42
 gpu_devices: 0,1,2,3
@@ -81,15 +81,18 @@ callbacks:
   - "tf.keras.callbacks.TerminateOnNaN()"
 
 # window_size: 8192
-window_size: 5000
-pred_batch_size: 64
-inference_overlap: 2
+window_size: 10000
+pred_batch_size: 32
+inference_overlap: 0.50
 inference_treshold: 0.50
+probability_map: False
 
 # Prediction location
 #model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska/cloudmask-alaska36-0.02.hdf5
 #model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska-std/cloudmask-alaska89-0.01.hdf5
-model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/development/alaska-norm/cloudmask-alaska25-0.02.hdf5
+#model_filename: /explore/nobackup/projects/ilab/projects/CloudMask/development/alaska-norm/cloudmask-alaska25-0.02.hdf5
+#model_filename: /explore/nobackup/projects/ilab/projects/CloudMask/VHRCloudMask-Paper/Vietnam/cnn/models/23-0.05-vietnam-only-10000norm-binarycross.hdf5
+model_filename: /explore/nobackup/projects/ilab/projects/CloudMask/VHRCloudMask-Paper/Senegal/cnn/models/46-0.04-vietnam-senegal-10000norm-binarycross.hdf5
 #inference_regex: '/adapt/nobackup/people/mwooten3/Senegal_LCLUC/testForMark/5-toas/WV02_20101020_M1BS_1030010007BBFA00-toa.tif'
 #inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/TOA_v4/ahri_plus_p1_UTM3N/5-toas/*.tif'
 #inference_save_dir: /adapt/nobackup/projects/ilab/projects/Vietnam/Jordan/VIETNAM_PRIORITY/clouds-binary-tensorflow-2022-05-02-senegal
@@ -99,5 +102,14 @@ model_filename: /adapt/nobackup/projects/ilab/projects/CloudMask/development/ala
 #inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/TOA_v2/Siberia/5-toas/WV02_20130218_M1BS_103001001F5AEF00-toa.tif'
 #inference_save_dir: /adapt/nobackup/projects/ilab/projects/Vietnam/Jordan/VIETNAM_PRIORITY/clouds-binary-tensorflow-2022-05-02-siberia
 #inference_regex: '/adapt/nobackup/projects/ilab/projects/srlite/input/YukonDelta/*-toa.tif'
-inference_regex: '/adapt/nobackup/projects/3sl/data/VHR/CAS/M1BS/*M1BS*-toa.tif'
-inference_save_dir: '/adapt/nobackup/projects/ilab/projects/CloudMask/products/3sl/v1/CAS'
+inference_regex_list:
+  #- '/adapt/nobackup/projects/3sl/data/VHR/CAS/M1BS/*M1BS*-toa.tif'
+  #- '/explore/nobackup/projects/hls/EVHR/Amhara-MS/WV02_20210601_M1BS_10300100BF816100-toa.tif'
+  #- '/explore/nobackup/projects/hls/EVHR/Amhara-MS/WV02_20100331_M1BS_103001000470DA00-toa.tif'
+  #- '/explore/nobackup/projects/hls/EVHR/Amhara-MS/WV03_20220204_M1BS_1040010073369100-toa.tif'
+  #- '/explore/nobackup/projects/hls/EVHR/Amhara-MS/*-toa.tif'
+  #- '/explore/nobackup/people/ameddens/1_SmallSat/2_Neigh_API/cloud_mask_img/*-toa.tif'
+  - '/explore/nobackup/projects/3sl/data/VHR/CAS/M1BS/*-toa.tif'
+  - '/explore/nobackup/projects/3sl/data/VHR/ETZ/M1BS/*-toa.tif'
+  - '/explore/nobackup/projects/3sl/data/VHR/SRV/M1BS/*-toa.tif'
+inference_save_dir: '/explore/nobackup/projects/ilab/projects/CloudMask/products/3sl/v2'
