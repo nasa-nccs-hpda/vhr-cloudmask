@@ -54,8 +54,35 @@
 <li class="toctree-l2"><a class="reference internal" href="#objectives">Objectives</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id29">}</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id34">}</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#downloading-the-container">Downloading the Container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-inference-of-clouds">Running Inference of Clouds</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#infrastructure">Infrastructure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#package-structure">Package Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-locations-where-this-workflow-has-been-validated">Data Locations where this Workflow has been Validated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development-pipeline-details">Development Pipeline Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authors">Authors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributors">Contributors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#paper">Paper</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id29">}</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#software">Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id34">}</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-references">Additional References</a></li>
 </ul>
 </li>
 </ul>
@@ -111,9 +138,9 @@ for high performance and commodity base environments.</p>
 <li><p><a class="reference internal" href="#getting-started">Getting Started</a></p></li>
 <li><p><a href="#id35"><span class="problematic" id="id36">`Examples`_</span></a></p></li>
 <li><p><a href="#id37"><span class="problematic" id="id38">`Best Practices`_</span></a></p></li>
-<li><p><a href="#id39"><span class="problematic" id="id40">`Contributing`_</span></a></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">`Contributors`_</span></a></p></li>
-<li><p><a href="#id43"><span class="problematic" id="id44">`References`_</span></a></p></li>
+<li><p><a class="reference internal" href="#contributing">Contributing</a></p></li>
+<li><p><a class="reference internal" href="#contributors">Contributors</a></p></li>
+<li><p><a class="reference internal" href="#references">References</a></p></li>
 </ul>
 <section id="objectives">
 <h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this heading"></a></h2>
@@ -147,7 +174,8 @@ the proposed methods for a global cloud cover implementation.</p>
 <p>The main recommended avenue for using vhr-cloudmask is through the publicly available set of containers
 provided via this repository. If containers are not an option for your setup, follow the installation
 instructions via PIP.</p>
-<p>### Downloading the Container</p>
+<section id="downloading-the-container">
+<h3>Downloading the Container<a class="headerlink" href="#downloading-the-container" title="Permalink to this heading"></a></h3>
 <p>All Python and GPU depenencies are installed in an OCI compliant Docker image. You can
 download this image into a Singularity format to use in HPC systems.</p>
 <p><code class="docutils literal notranslate"><span class="pre">`bash</span>
@@ -161,7 +189,9 @@ command. Depending the filesystem, this can take between 5 minutes to an hour.</
 <span class="pre">`</span></code></p>
 <p>If you have done this step, you can skip the Installation step since the containers already
 come with all dependencies installed.</p>
-<p>### Installation</p>
+</section>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h3>
 <p>vhr-cloudmask can be installed by itself, but instructions for installing the full environments
 are listed under the requirements directory so projects, examples, and notebooks can be run.</p>
 <p>Note: PIP installations do not include CUDA libraries for GPU support. Make sure
@@ -176,7 +206,9 @@ you can run the following command in your terminal:</p>
 <p><code class="docutils literal notranslate"><span class="pre">`bash</span>
 <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">vhr-cloudmask</span>
 <span class="pre">`</span></code></p>
-<p>### Running Inference of Clouds</p>
+</section>
+<section id="running-inference-of-clouds">
+<h3>Running Inference of Clouds<a class="headerlink" href="#running-inference-of-clouds" title="Permalink to this heading"></a></h3>
 <p>Use the following command if you need to perform inference using a regex that points
 to the necessary files and by leveraging the default global model. The following is
 a singularity exec command with options from both Singularity and the cloud masking
@@ -199,7 +231,10 @@ of jobs (up to your processing limit), and process the remaining files.</p>
 <p><code class="docutils literal notranslate"><span class="pre">`bash</span>
 <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">{0..64};</span> <span class="pre">do</span> <span class="pre">sbatch</span> <span class="pre">--mem-per-cpu=10240</span> <span class="pre">-G1</span> <span class="pre">-c10</span> <span class="pre">-t05-00:00:00</span> <span class="pre">-J</span> <span class="pre">clouds</span> <span class="pre">--wrap=&quot;singularity</span> <span class="pre">exec</span> <span class="pre">--nv</span> <span class="pre">-B</span> <span class="pre">$NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects</span> <span class="pre">/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif</span> <span class="pre">vhr-cloudmask-cli</span> <span class="pre">-o</span> <span class="pre">'/explore/nobackup/projects/ilab/test/vhr-cloudmask'</span> <span class="pre">-r</span> <span class="pre">'/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif'</span> <span class="pre">'/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif'</span> <span class="pre">-s</span> <span class="pre">predict&quot;;</span> <span class="pre">done</span>
 <span class="pre">`</span></code></p>
-<p>## Infrastructure</p>
+</section>
+</section>
+<section id="infrastructure">
+<h2>Infrastructure<a class="headerlink" href="#infrastructure" title="Permalink to this heading"></a></h2>
 <p>The vhr-cloudmask package is a set of CLI tools and Jupyter-based notebooks to manage and
 structure the validation of remote sensing data. The CLI tools can be run from inside a container
 or from any system where the vhr-cloudmask package is installed.</p>
@@ -207,7 +242,9 @@ or from any system where the vhr-cloudmask package is installed.</p>
 inference of imagery. If no GPU is available, the process will continue as expected but with a large
 slowdown. There are no minimum system memory requirements given the sliding window procedures
 implemented in the inference process.</p>
-<p>## Package Structure</p>
+</section>
+<section id="package-structure">
+<h2>Package Structure<a class="headerlink" href="#package-structure" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">bash</span>
 <span class="pre">├──</span> <span class="pre">archives</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Legacy</span> <span class="pre">code</span> <span class="pre">stored</span> <span class="pre">to</span> <span class="pre">historical</span> <span class="pre">reference</span>
 <span class="pre">├──</span> <span class="pre">docs</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Default</span> <span class="pre">documentation</span> <span class="pre">for</span> <span class="pre">working</span> <span class="pre">with</span> <span class="pre">this</span> <span class="pre">project</span>
@@ -222,7 +259,9 @@ implemented in the inference process.</p>
 <span class="pre">├──</span> <span class="pre">LICENSE</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">License</span> <span class="pre">documentation</span>
 <span class="pre">└──</span> <span class="pre">setup.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Script</span> <span class="pre">to</span> <span class="pre">install</span> <span class="pre">library</span>
 <span class="pre">`</span></code></p>
-<p>## Data Locations where this Workflow has been Validated</p>
+</section>
+<section id="data-locations-where-this-workflow-has-been-validated">
+<h2>Data Locations where this Workflow has been Validated<a class="headerlink" href="#data-locations-where-this-workflow-has-been-validated" title="Permalink to this heading"></a></h2>
 <p>The vhr-cloudmask workflow has been validated in the following study areas
 using WorldView imagery. Additional areas will be included into our validation
 suite as part of upcoming efforts to improve the scalability of our models.</p>
@@ -235,7 +274,9 @@ suite as part of upcoming efforts to improve the scalability of our models.</p>
 <li><p>Whitesands</p></li>
 <li><p>Siberia</p></li>
 </ul>
-<p>## Development Pipeline Details</p>
+</section>
+<section id="development-pipeline-details">
+<h2>Development Pipeline Details<a class="headerlink" href="#development-pipeline-details" title="Permalink to this heading"></a></h2>
 <p>When performing development (training a model, preprocessing, etc.), we want to run from the
 dev container so we can add the Python files to the PYTHONPATH. The following commmand is an example
 command to run inference given a configuration file.</p>
@@ -253,49 +294,68 @@ singularity exec –env PYTHONPATH=”$NOBACKUP/development/tensorflow-caney:$NO
 <div><p>–nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml -o ‘/explore/nobackup/projects/ilab/test/vhr-cloudmask’ -r ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif’ ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif’ -s predict</p>
 </div></blockquote>
 <p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
-<p>## Authors</p>
+</section>
+<section id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Jordan Alexis Caraballo-Vega, <a class="reference external" href="mailto:jordan&#46;a&#46;caraballo-vega&#37;&#52;&#48;nasa&#46;gov">jordan<span>&#46;</span>a<span>&#46;</span>caraballo-vega<span>&#64;</span>nasa<span>&#46;</span>gov</a></p></li>
 <li><p>Caleb S. Spradlin, <a class="reference external" href="mailto:caleb&#46;s&#46;spradlin&#37;&#52;&#48;nasa&#46;gov">caleb<span>&#46;</span>s<span>&#46;</span>spradlin<span>&#64;</span>nasa<span>&#46;</span>gov</a></p></li>
 <li><p>Margaret Wooten, <a class="reference external" href="mailto:margaret&#46;wooten&#37;&#52;&#48;nasa&#46;gov">margaret<span>&#46;</span>wooten<span>&#64;</span>nasa<span>&#46;</span>gov</a></p></li>
 </ul>
-<p>## Contributors</p>
+</section>
+<section id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Andrew Weis, <a class="reference external" href="mailto:aweis1998&#37;&#52;&#48;icloud&#46;com">aweis1998<span>&#64;</span>icloud<span>&#46;</span>com</a></p></li>
 <li><p>Brian Lee, <a class="reference external" href="mailto:brianlee52&#37;&#52;&#48;bren&#46;ucsb&#46;edu">brianlee52<span>&#64;</span>bren<span>&#46;</span>ucsb<span>&#46;</span>edu</a></p></li>
 </ul>
-<p>## Contributing</p>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading"></a></h2>
 <p>Please see our [guide for contributing to vhr-cloudmask](CONTRIBUTING.md). Contributions
 are welcome, and they are greatly appreciated! Every little bit helps, and credit will
 always be given.</p>
 <p>You can contribute in many ways:</p>
-<p>### Report Bugs</p>
+<section id="report-bugs">
+<h3>Report Bugs<a class="headerlink" href="#report-bugs" title="Permalink to this heading"></a></h3>
 <p>Report bugs at <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues">https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues</a>.</p>
 <p>If you are reporting a bug, please include:
 - Your operating system name and version.
 - Any details about your local setup that might be helpful in troubleshooting.
 - Detailed steps to reproduce the bug.</p>
-<p>### Fix Bugs</p>
+</section>
+<section id="fix-bugs">
+<h3>Fix Bugs<a class="headerlink" href="#fix-bugs" title="Permalink to this heading"></a></h3>
 <p>Look through the GitHub issues for bugs. Anything tagged with “bug” and
 “help wanted” is open to whoever wants to implement it.</p>
-<p>### Implement Features</p>
+</section>
+<section id="implement-features">
+<h3>Implement Features<a class="headerlink" href="#implement-features" title="Permalink to this heading"></a></h3>
 <p>Look through the GitHub issues for features. Anything tagged with “enhancement” and “help wanted” is
 open to whoever wants to implement it.</p>
-<p>### Write Documentation</p>
+</section>
+<section id="write-documentation">
+<h3>Write Documentation<a class="headerlink" href="#write-documentation" title="Permalink to this heading"></a></h3>
 <p>vhr-cloudmask could always use more documentation, whether as part of the official vhr-cloudmask docs,
 in docstrings, or even on the web in blog posts, articles, and such.</p>
-<p>### Submit Feedback</p>
+</section>
+<section id="submit-feedback">
+<h3>Submit Feedback<a class="headerlink" href="#submit-feedback" title="Permalink to this heading"></a></h3>
 <p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues">https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues</a>.</p>
 <p>If you are proposing a feature:
 - Explain in detail how it would work.
 - Keep the scope as narrow as possible, to make it easier to implement.
 - Remember that this is a volunteer-driven project, and that contributions are welcome :)</p>
-<p>## References</p>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
 <p>Tutorials will be published under [Medium](<a class="reference external" href="https://medium.com/&#64;jordan.caraballo/">https://medium.com/&#64;jordan.caraballo/</a>) for additional support
 and development, including how to use the library or any upcoming releases.</p>
 <p>Please consider citing this when using vhr-cloudmask in a project. You can use the citation BibTeX to site
 bot the software and the article:</p>
-<p>### Paper</p>
+<section id="paper">
+<h3>Paper<a class="headerlink" href="#paper" title="Permalink to this heading"></a></h3>
 <p><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a>bibtex
 &#64;article{caraballo2023optimizing,</p>
 <blockquote>
@@ -308,8 +368,11 @@ year={2023},
 publisher={Elsevier}</p>
 </div></blockquote>
 <section id="id29">
-<h3>}<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
-<p>### Software</p>
+<h4>}<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h4>
+</section>
+</section>
+<section id="software">
+<h3>Software<a class="headerlink" href="#software" title="Permalink to this heading"></a></h3>
 <p><a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a>bibtex
 &#64;software{jordan_alexis_caraballo_vega_2021_7613207,</p>
 <blockquote>
@@ -322,10 +385,12 @@ version      = {1.0.0},
 doi          = {10.5281/zenodo.7613207},
 url          = {<a class="reference external" href="https://doi.org/10.5281/zenodo.7613207">https://doi.org/10.5281/zenodo.7613207</a>}</p>
 </div></blockquote>
-</section>
 <section id="id34">
-<h3>}<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h3>
-<p>### Additional References</p>
+<h4>}<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h4>
+</section>
+</section>
+<section id="additional-references">
+<h3>Additional References<a class="headerlink" href="#additional-references" title="Permalink to this heading"></a></h3>
 <p>[1] Raschka, S., Patterson, J., &amp; Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.</p>
 <p>[2] Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, &lt;<a class="reference external" href="https://github.com/pytorch/pytorch">https://github.com/pytorch/pytorch</a>&gt;. Accessed 13 February 2020.</p>
 <p>[3] Caraballo-Vega, J., Carroll, M., Li, J., &amp; Duffy, D. (2021, December). Towards Scalable &amp; GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.</p>
