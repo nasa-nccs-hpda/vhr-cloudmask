@@ -38,7 +38,7 @@ def arr_to_tif(raster_f, segments, out_tif='s.tif', ndval=-10001):
         nodatavals = src.read_masks(1).astype('int16')
 
     # load numpy array if file is given
-    if type(segments) == str:
+    if type(segments) == 'str':
         segments = np.load(segments)
     segments = segments.astype('int16')
 
