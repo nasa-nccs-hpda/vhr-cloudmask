@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>} &mdash; vhr-cloudmask 1.1.0 documentation</title>
+  <title>vhr-cloudmask &mdash; vhr-cloudmask 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
 
@@ -50,8 +50,17 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">}</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#id34">}</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">vhr-cloudmask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#objectives">Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id29">}</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">}</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">vhr-cloudmask package</a></li>
 </ul>
 
         </div>
@@ -68,7 +77,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">}</li>
+      <li class="breadcrumb-item active">vhr-cloudmask</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -78,13 +87,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <p># vhr-cloudmask</p>
-<p>[![DOI](<a class="reference external" href="https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg)](https://doi.org/10.5281/zenodo.7613207">https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg)](https://doi.org/10.5281/zenodo.7613207</a>)
-![CI Workflow](<a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg">https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg</a>)
-![CI to DockerHub ](<a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg">https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg</a>)
-![Code style: PEP8](<a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg">https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg</a>)
-[![Code style: black](<a class="reference external" href="https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black">https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black</a>)
-[![Coverage Status](<a class="reference external" href="https://coveralls.io/repos/github/nasa-nccs-hpda/vhr-cloudmask/badge.svg?branch=main)](https://coveralls.io/github/nasa-nccs-hpda/vhr-cloudmask">https://coveralls.io/repos/github/nasa-nccs-hpda/vhr-cloudmask/badge.svg?branch=main)](https://coveralls.io/github/nasa-nccs-hpda/vhr-cloudmask</a>?branch=main)</p>
+  <section id="vhr-cloudmask">
+<h1>vhr-cloudmask<a class="headerlink" href="#vhr-cloudmask" title="Permalink to this heading"></a></h1>
+<a class="reference external image-reference" href="https://doi.org/10.5281/zenodo.7613207"><img alt="https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg" src="https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml"><img alt="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg" src="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml"><img alt="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg" src="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml"><img alt="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg" src="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml"><img alt="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg" src="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/psf/black"><img alt="https://img.shields.io/badge/code%20style-black-000000.svg" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
+<a class="reference external image-reference" href="https://coveralls.io/github/nasa-nccs-hpda/vhr-cloudmask?branch=main"><img alt="https://coveralls.io/repos/github/nasa-nccs-hpda/vhr-cloudmask/badge.svg?branch=main" src="https://coveralls.io/repos/github/nasa-nccs-hpda/vhr-cloudmask/badge.svg?branch=main" /></a>
+<p><strong>Very High-Resolution Cloud Masking Framework</strong></p>
 <p>Python library to perform semantic segmentation of clouds and cloud shadows using
 very-high resolution remote sensing imagery by means of GPUs and CPU parallelization
 for high performance and commodity base environments.</p>
@@ -92,16 +104,46 @@ for high performance and commodity base environments.</p>
 <li><p>GitHub repo: <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask">https://github.com/nasa-nccs-hpda/vhr-cloudmask</a></p></li>
 <li><p>Documentation: <a class="reference external" href="https://nasa-nccs-hpda.github.io/vhr-cloudmask">https://nasa-nccs-hpda.github.io/vhr-cloudmask</a></p></li>
 </ul>
-<p>## Objectives</p>
+<p><strong>Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#objectives">Objectives</a></p></li>
+<li><p><a class="reference internal" href="#background">Background</a></p></li>
+<li><p><a class="reference internal" href="#getting-started">Getting Started</a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">`Examples`_</span></a></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">`Best Practices`_</span></a></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">`Contributing`_</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">`Contributors`_</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">`References`_</span></a></p></li>
+</ul>
+<section id="objectives">
+<h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Library to process remote sensing imagery using GPU and CPU parallelization.</p></li>
 <li><p>Machine learning and deep learning cloud segmentation of VHR imagery.</p></li>
 <li><p>Large-scale image inference.</p></li>
 </ul>
-<p>## Background</p>
-<p>The detection of clouds is one of the first steps in the pre-processing of remotely sensed data. At coarse spatial resolution (&gt; 100 m), clouds are bright and generally distinguishable from other landscape surfaces. At very high-resolution (&lt; 3 m), detecting clouds becomes a significant challenge due to the presence of smaller features, with spectral characteristics similar to other land cover types, and thin (partially transparent) cloud forms. Furthermore, at this resolution, clouds can cover many thousands of pixels, making both the center and boundaries of the clouds prone to pixel contamination and variations in the spectral intensity. Techniques that rely solely on the spectral information of clouds underperform in these situations.</p>
-<p>In this study, we propose a multi-regional and multi-sensor deep learning approach for the detection of clouds in very high-resolution WorldView satellite imagery. A modified UNet-like convolutional neural network (CNN) was used for the task of semantic segmentation in the regions of Vietnam, Senegal, and Ethiopia strictly using RGB + NIR spectral bands. In addition, we demonstrate the superiority of CNNs cloud predicted mapping accuracy of 81–91%, over traditional methods such as Random Forest algorithms of 57–88%. The best performing UNet model has an overall accuracy of 95% in all regions, while the Random Forest has an overall accuracy of 89%. We conclude with promising future research directions of the proposed methods for a global cloud cover implementation.</p>
-<p>## Getting Started</p>
+</section>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h2>
+<p>The detection of clouds is one of the first steps in the pre-processing of remotely sensed data.
+At coarse spatial resolution (&gt; 100 m), clouds are bright and generally distinguishable from other
+landscape surfaces. At very high-resolution (&lt; 3 m), detecting clouds becomes a significant challenge
+due to the presence of smaller features, with spectral characteristics similar to other land cover types,
+and thin (partially transparent) cloud forms. Furthermore, at this resolution, clouds can cover many
+thousands of pixels, making both the center and boundaries of the clouds prone to pixel contamination
+and variations in the spectral intensity. Techniques that rely solely on the spectral information of
+clouds underperform in these situations.</p>
+<p>In this study, we propose a multi-regional and multi-sensor deep learning approach for the detection of
+clouds in very high-resolution WorldView satellite imagery. A modified UNet-like convolutional neural
+network (CNN) was used for the task of semantic segmentation in the regions of Vietnam, Senegal, and
+Ethiopia strictly using RGB + NIR spectral bands. In addition, we demonstrate the superiority of CNNs
+cloud predicted mapping accuracy of 81–91%, over traditional methods such as Random Forest algorithms
+of 57–88%. The best performing UNet model has an overall accuracy of 95% in all regions, while the
+Random Forest has an overall accuracy of 89%. We conclude with promising future research directions of
+the proposed methods for a global cloud cover implementation.</p>
+</section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
 <p>The main recommended avenue for using vhr-cloudmask is through the publicly available set of containers
 provided via this repository. If containers are not an option for your setup, follow the installation
 instructions via PIP.</p>
@@ -266,7 +308,7 @@ year={2023},
 publisher={Elsevier}</p>
 </div></blockquote>
 <section id="id29">
-<h1>}<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h1>
+<h3>}<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
 <p>### Software</p>
 <p><a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a>bibtex
 &#64;software{jordan_alexis_caraballo_vega_2021_7613207,</p>
@@ -282,11 +324,13 @@ url          = {<a class="reference external" href="https://doi.org/10.5281/zeno
 </div></blockquote>
 </section>
 <section id="id34">
-<h1>}<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h1>
+<h3>}<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h3>
 <p>### Additional References</p>
 <p>[1] Raschka, S., Patterson, J., &amp; Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.</p>
 <p>[2] Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, &lt;<a class="reference external" href="https://github.com/pytorch/pytorch">https://github.com/pytorch/pytorch</a>&gt;. Accessed 13 February 2020.</p>
 <p>[3] Caraballo-Vega, J., Carroll, M., Li, J., &amp; Duffy, D. (2021, December). Towards Scalable &amp; GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.</p>
+</section>
+</section>
 </section>
 
 
