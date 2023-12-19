@@ -43,10 +43,10 @@ singularity pull docker://nasanccs/vhr-cloudmask:latest
 
 In some cases, HPC systems require Singularity containers to be built as sandbox environments because
 of uid issues (this is the case of NCCS Explore). For that case you can build a sandbox using the following
-command:
+command. Depending the filesystem, this can take between 5 minutes to an hour.
 
 ```bash
-singularity build --sandbox /lscratch/jacaraba/container/vhr-cloudmask docker://nasanccs/vhr-cloudmask:latest
+singularity build --sandbox vhr-cloudmask docker://nasanccs/vhr-cloudmask:latest
 ```
 
 If you have done this step, you can skip the Installation step since the containers already
@@ -77,7 +77,17 @@ pip install -U vhr-cloudmask
 ### Running Inference of Clouds
 
 Use the following command if you need to perform inference using a regex that points
-to the necessary files:
+to the necessary files. The following is a singularity exec command with options from
+both Singularity and the cloud masking application.
+
+Singularity options:
+- '-B': mounts a filesystem from the host into the container
+- '--nv': mount container binaries/devices
+
+vhr_cloumask_cli options:
+- '-r': list of regex strings to find geotiff files to predict from
+- '-o': output directory to store cloud masks
+- '': 
 
 ```bash
 singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
