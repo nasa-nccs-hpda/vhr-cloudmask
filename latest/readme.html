@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>vhr-cloudmask &mdash; vhr-cloudmask 1.1.0 documentation</title>
+  <title>} &mdash; vhr-cloudmask 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
 
@@ -50,10 +50,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">vhr-cloudmask</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#objectives">Objectives</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">}</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id34">}</a></li>
 </ul>
 
         </div>
@@ -70,7 +68,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">vhr-cloudmask</li>
+      <li class="breadcrumb-item active">}</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -80,33 +78,215 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="vhr-cloudmask">
-<h1>vhr-cloudmask<a class="headerlink" href="#vhr-cloudmask" title="Permalink to this heading"></a></h1>
-<a class="reference external image-reference" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml"><img alt="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg" src="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg" /></a>
-<p><strong>Very High-Resolution Cloud Masking Framework</strong></p>
+  <p># vhr-cloudmask</p>
+<p>[![DOI](<a class="reference external" href="https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg)](https://doi.org/10.5281/zenodo.7613207">https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg)](https://doi.org/10.5281/zenodo.7613207</a>)
+![CI Workflow](<a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg">https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg</a>)
+![CI to DockerHub ](<a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg">https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg</a>)
+![Code style: PEP8](<a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg">https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/lint.yml/badge.svg</a>)
+[![Code style: black](<a class="reference external" href="https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black">https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black</a>)
+[![Coverage Status](<a class="reference external" href="https://coveralls.io/repos/github/nasa-nccs-hpda/vhr-cloudmask/badge.svg?branch=main)](https://coveralls.io/github/nasa-nccs-hpda/vhr-cloudmask">https://coveralls.io/repos/github/nasa-nccs-hpda/vhr-cloudmask/badge.svg?branch=main)](https://coveralls.io/github/nasa-nccs-hpda/vhr-cloudmask</a>?branch=main)</p>
+<p>Python library to perform semantic segmentation of clouds and cloud shadows using
+very-high resolution remote sensing imagery by means of GPUs and CPU parallelization
+for high performance and commodity base environments.</p>
 <ul class="simple">
 <li><p>GitHub repo: <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask">https://github.com/nasa-nccs-hpda/vhr-cloudmask</a></p></li>
 <li><p>Documentation: <a class="reference external" href="https://nasa-nccs-hpda.github.io/vhr-cloudmask">https://nasa-nccs-hpda.github.io/vhr-cloudmask</a></p></li>
 </ul>
-<p><strong>Contents</strong></p>
+<p>## Objectives</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#objectives">Objectives</a></p></li>
-<li><p><a href="#id1"><span class="problematic" id="id2">`Installation`_</span></a></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">`Infrastructure`_</span></a></p></li>
-<li><p><a href="#id5"><span class="problematic" id="id6">`Examples`_</span></a></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">`Best Practices`_</span></a></p></li>
-<li><p><a href="#id9"><span class="problematic" id="id10">`Contributing`_</span></a></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">`Contributors`_</span></a></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">`References`_</span></a></p></li>
+<li><p>Library to process remote sensing imagery using GPU and CPU parallelization.</p></li>
+<li><p>Machine learning and deep learning cloud segmentation of VHR imagery.</p></li>
+<li><p>Large-scale image inference.</p></li>
 </ul>
-<section id="objectives">
-<h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this heading"></a></h2>
+<p>## Background</p>
+<p>The detection of clouds is one of the first steps in the pre-processing of remotely sensed data. At coarse spatial resolution (&gt; 100 m), clouds are bright and generally distinguishable from other landscape surfaces. At very high-resolution (&lt; 3 m), detecting clouds becomes a significant challenge due to the presence of smaller features, with spectral characteristics similar to other land cover types, and thin (partially transparent) cloud forms. Furthermore, at this resolution, clouds can cover many thousands of pixels, making both the center and boundaries of the clouds prone to pixel contamination and variations in the spectral intensity. Techniques that rely solely on the spectral information of clouds underperform in these situations.</p>
+<p>In this study, we propose a multi-regional and multi-sensor deep learning approach for the detection of clouds in very high-resolution WorldView satellite imagery. A modified UNet-like convolutional neural network (CNN) was used for the task of semantic segmentation in the regions of Vietnam, Senegal, and Ethiopia strictly using RGB + NIR spectral bands. In addition, we demonstrate the superiority of CNNs cloud predicted mapping accuracy of 81–91%, over traditional methods such as Random Forest algorithms of 57–88%. The best performing UNet model has an overall accuracy of 95% in all regions, while the Random Forest has an overall accuracy of 89%. We conclude with promising future research directions of the proposed methods for a global cloud cover implementation.</p>
+<p>## Getting Started</p>
+<p>The main recommended avenue for using vhr-cloudmask is through the publicly available set of containers
+provided via this repository. If containers are not an option for your setup, follow the installation
+instructions via PIP.</p>
+<p>### Downloading the Container</p>
+<p>All Python and GPU depenencies are installed in an OCI compliant Docker image. You can
+download this image into a Singularity format to use in HPC systems.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">singularity</span> <span class="pre">pull</span> <span class="pre">docker://nasanccs/vhr-cloudmask:latest</span>
+<span class="pre">`</span></code></p>
+<p>In some cases, HPC systems require Singularity containers to be built as sandbox environments because
+of uid issues (this is the case of NCCS Explore). For that case you can build a sandbox using the following
+command. Depending the filesystem, this can take between 5 minutes to an hour.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">singularity</span> <span class="pre">build</span> <span class="pre">--sandbox</span> <span class="pre">vhr-cloudmask</span> <span class="pre">docker://nasanccs/vhr-cloudmask:latest</span>
+<span class="pre">`</span></code></p>
+<p>If you have done this step, you can skip the Installation step since the containers already
+come with all dependencies installed.</p>
+<p>### Installation</p>
+<p>vhr-cloudmask can be installed by itself, but instructions for installing the full environments
+are listed under the requirements directory so projects, examples, and notebooks can be run.</p>
+<p>Note: PIP installations do not include CUDA libraries for GPU support. Make sure
+NVIDIA libraries are installed locally in the system if not using conda.</p>
+<p>vhr-cloudmask is available on [PyPI](<a class="reference external" href="https://pypi.org/project/vhr-cloudmask/">https://pypi.org/project/vhr-cloudmask/</a>).
+To install vhr-cloudmask, run this command in your terminal or from inside a container:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">vhr-cloudmask</span>
+<span class="pre">`</span></code></p>
+<p>If you have installed vhr-cloudmask before and want to upgrade to the latest version,
+you can run the following command in your terminal:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">vhr-cloudmask</span>
+<span class="pre">`</span></code></p>
+<p>### Running Inference of Clouds</p>
+<p>Use the following command if you need to perform inference using a regex that points
+to the necessary files and by leveraging the default global model. The following is
+a singularity exec command with options from both Singularity and the cloud masking
+application.</p>
+<p>Singularity options:
+- ‘-B’: mounts a filesystem from the host into the container
+- ‘–nv’: mount container binaries/devices</p>
+<p>vhr_cloumask_cli options:
+- ‘-r’: list of regex strings to find geotiff files to predict from
+- ‘-o’: output directory to store cloud masks
+- ‘-s’: pipeline step, to generate masks only we want to predict</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>bash
+singularity exec –nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects </p>
+<blockquote>
+<div><p>/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli -o ‘/explore/nobackup/projects/ilab/test/vhr-cloudmask’ -r ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif’ ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif’ -s predict</p>
+</div></blockquote>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>To predict via slurm for a large set of files, use the following script which will start a large number
+of jobs (up to your processing limit), and process the remaining files.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
+<span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">{0..64};</span> <span class="pre">do</span> <span class="pre">sbatch</span> <span class="pre">--mem-per-cpu=10240</span> <span class="pre">-G1</span> <span class="pre">-c10</span> <span class="pre">-t05-00:00:00</span> <span class="pre">-J</span> <span class="pre">clouds</span> <span class="pre">--wrap=&quot;singularity</span> <span class="pre">exec</span> <span class="pre">--nv</span> <span class="pre">-B</span> <span class="pre">$NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects</span> <span class="pre">/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif</span> <span class="pre">vhr-cloudmask-cli</span> <span class="pre">-o</span> <span class="pre">'/explore/nobackup/projects/ilab/test/vhr-cloudmask'</span> <span class="pre">-r</span> <span class="pre">'/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif'</span> <span class="pre">'/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif'</span> <span class="pre">-s</span> <span class="pre">predict&quot;;</span> <span class="pre">done</span>
+<span class="pre">`</span></code></p>
+<p>## Infrastructure</p>
+<p>The vhr-cloudmask package is a set of CLI tools and Jupyter-based notebooks to manage and
+structure the validation of remote sensing data. The CLI tools can be run from inside a container
+or from any system where the vhr-cloudmask package is installed.</p>
+<p>The main system requirements from this package are a system with GPUs to accelerate the training and
+inference of imagery. If no GPU is available, the process will continue as expected but with a large
+slowdown. There are no minimum system memory requirements given the sliding window procedures
+implemented in the inference process.</p>
+<p>## Package Structure</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">bash</span>
+<span class="pre">├──</span> <span class="pre">archives</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Legacy</span> <span class="pre">code</span> <span class="pre">stored</span> <span class="pre">to</span> <span class="pre">historical</span> <span class="pre">reference</span>
+<span class="pre">├──</span> <span class="pre">docs</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Default</span> <span class="pre">documentation</span> <span class="pre">for</span> <span class="pre">working</span> <span class="pre">with</span> <span class="pre">this</span> <span class="pre">project</span>
+<span class="pre">├──</span> <span class="pre">images</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Store</span> <span class="pre">project</span> <span class="pre">images</span>
+<span class="pre">├──</span> <span class="pre">notebooks</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Jupyter</span> <span class="pre">notebooks</span>
+<span class="pre">├──</span> <span class="pre">examples</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Examples</span> <span class="pre">for</span> <span class="pre">utilizing</span> <span class="pre">the</span> <span class="pre">library</span>
+<span class="pre">├──</span> <span class="pre">requirements</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Requirements</span> <span class="pre">for</span> <span class="pre">installing</span> <span class="pre">the</span> <span class="pre">dependencies</span>
+<span class="pre">├──</span> <span class="pre">scripts</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Utility</span> <span class="pre">scripts</span> <span class="pre">for</span> <span class="pre">analysis</span>
+<span class="pre">├──</span> <span class="pre">vhr_cloudmask</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Library</span> <span class="pre">source</span> <span class="pre">code</span>
+<span class="pre">├──</span> <span class="pre">README.md</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">The</span> <span class="pre">top-level</span> <span class="pre">README</span> <span class="pre">for</span> <span class="pre">developers</span> <span class="pre">using</span> <span class="pre">this</span> <span class="pre">project</span>
+<span class="pre">├──</span> <span class="pre">CHANGELOG.md</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Releases</span> <span class="pre">documentation</span>
+<span class="pre">├──</span> <span class="pre">LICENSE</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">License</span> <span class="pre">documentation</span>
+<span class="pre">└──</span> <span class="pre">setup.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Script</span> <span class="pre">to</span> <span class="pre">install</span> <span class="pre">library</span>
+<span class="pre">`</span></code></p>
+<p>## Data Locations where this Workflow has been Validated</p>
+<p>The vhr-cloudmask workflow has been validated in the following study areas
+using WorldView imagery. Additional areas will be included into our validation
+suite as part of upcoming efforts to improve the scalability of our models.</p>
 <ul class="simple">
-<li><p>Library to process remote sensing imagery using GPU and CPU parallelization</p></li>
-<li><p>Machine learning and deep learning cloud segmentation</p></li>
-<li><p>Large-scale image inference</p></li>
+<li><p>Senegal</p></li>
+<li><p>Vietnam</p></li>
+<li><p>Ethiopia</p></li>
+<li><p>Oregon</p></li>
+<li><p>Alaska</p></li>
+<li><p>Whitesands</p></li>
+<li><p>Siberia</p></li>
 </ul>
+<p>## Development Pipeline Details</p>
+<p>When performing development (training a model, preprocessing, etc.), we want to run from the
+dev container so we can add the Python files to the PYTHONPATH. The following commmand is an example
+command to run inference given a configuration file.</p>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>bash
+singularity exec –env PYTHONPATH=”$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask” </p>
+<blockquote>
+<div><p>–nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml -s predict</p>
+</div></blockquote>
+<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<p>If you do not have access to modify the configuration file, or just need to perform small changes to the model selection,
+the regex to the files to predict, or the output directory, manually specify the arguments to the CLI file:</p>
+<p><a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a>bash
+singularity exec –env PYTHONPATH=”$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask” </p>
+<blockquote>
+<div><p>–nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml -o ‘/explore/nobackup/projects/ilab/test/vhr-cloudmask’ -r ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif’ ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif’ -s predict</p>
+</div></blockquote>
+<p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<p>## Authors</p>
+<ul class="simple">
+<li><p>Jordan Alexis Caraballo-Vega, <a class="reference external" href="mailto:jordan&#46;a&#46;caraballo-vega&#37;&#52;&#48;nasa&#46;gov">jordan<span>&#46;</span>a<span>&#46;</span>caraballo-vega<span>&#64;</span>nasa<span>&#46;</span>gov</a></p></li>
+<li><p>Caleb S. Spradlin, <a class="reference external" href="mailto:caleb&#46;s&#46;spradlin&#37;&#52;&#48;nasa&#46;gov">caleb<span>&#46;</span>s<span>&#46;</span>spradlin<span>&#64;</span>nasa<span>&#46;</span>gov</a></p></li>
+<li><p>Margaret Wooten, <a class="reference external" href="mailto:margaret&#46;wooten&#37;&#52;&#48;nasa&#46;gov">margaret<span>&#46;</span>wooten<span>&#64;</span>nasa<span>&#46;</span>gov</a></p></li>
+</ul>
+<p>## Contributors</p>
+<ul class="simple">
+<li><p>Andrew Weis, <a class="reference external" href="mailto:aweis1998&#37;&#52;&#48;icloud&#46;com">aweis1998<span>&#64;</span>icloud<span>&#46;</span>com</a></p></li>
+<li><p>Brian Lee, <a class="reference external" href="mailto:brianlee52&#37;&#52;&#48;bren&#46;ucsb&#46;edu">brianlee52<span>&#64;</span>bren<span>&#46;</span>ucsb<span>&#46;</span>edu</a></p></li>
+</ul>
+<p>## Contributing</p>
+<p>Please see our [guide for contributing to vhr-cloudmask](CONTRIBUTING.md). Contributions
+are welcome, and they are greatly appreciated! Every little bit helps, and credit will
+always be given.</p>
+<p>You can contribute in many ways:</p>
+<p>### Report Bugs</p>
+<p>Report bugs at <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues">https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues</a>.</p>
+<p>If you are reporting a bug, please include:
+- Your operating system name and version.
+- Any details about your local setup that might be helpful in troubleshooting.
+- Detailed steps to reproduce the bug.</p>
+<p>### Fix Bugs</p>
+<p>Look through the GitHub issues for bugs. Anything tagged with “bug” and
+“help wanted” is open to whoever wants to implement it.</p>
+<p>### Implement Features</p>
+<p>Look through the GitHub issues for features. Anything tagged with “enhancement” and “help wanted” is
+open to whoever wants to implement it.</p>
+<p>### Write Documentation</p>
+<p>vhr-cloudmask could always use more documentation, whether as part of the official vhr-cloudmask docs,
+in docstrings, or even on the web in blog posts, articles, and such.</p>
+<p>### Submit Feedback</p>
+<p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues">https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues</a>.</p>
+<p>If you are proposing a feature:
+- Explain in detail how it would work.
+- Keep the scope as narrow as possible, to make it easier to implement.
+- Remember that this is a volunteer-driven project, and that contributions are welcome :)</p>
+<p>## References</p>
+<p>Tutorials will be published under [Medium](<a class="reference external" href="https://medium.com/&#64;jordan.caraballo/">https://medium.com/&#64;jordan.caraballo/</a>) for additional support
+and development, including how to use the library or any upcoming releases.</p>
+<p>Please consider citing this when using vhr-cloudmask in a project. You can use the citation BibTeX to site
+bot the software and the article:</p>
+<p>### Paper</p>
+<p><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a>bibtex
+&#64;article{caraballo2023optimizing,</p>
+<blockquote>
+<div><p>title={Optimizing WorldView-2,-3 cloud masking using machine learning approaches},
+author={Caraballo-Vega, JA and Carroll, ML and Neigh, CSR and Wooten, M and Lee, B and Weis, A and Aronne, M and Alemu, WG and Williams, Z},
+journal={Remote Sensing of Environment},
+volume={284},
+pages={113332},
+year={2023},
+publisher={Elsevier}</p>
+</div></blockquote>
+<section id="id29">
+<h1>}<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h1>
+<p>### Software</p>
+<p><a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a>bibtex
+&#64;software{jordan_alexis_caraballo_vega_2021_7613207,</p>
+<blockquote>
+<div><p>author       = {Jordan Alexis Caraballo-Vega},
+title        = {vhr-cloudmask},
+month        = dec,
+year         = 2021,
+publisher    = {Zenodo},
+version      = {1.0.0},
+doi          = {10.5281/zenodo.7613207},
+url          = {<a class="reference external" href="https://doi.org/10.5281/zenodo.7613207">https://doi.org/10.5281/zenodo.7613207</a>}</p>
+</div></blockquote>
 </section>
+<section id="id34">
+<h1>}<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h1>
+<p>### Additional References</p>
+<p>[1] Raschka, S., Patterson, J., &amp; Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.</p>
+<p>[2] Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, &lt;<a class="reference external" href="https://github.com/pytorch/pytorch">https://github.com/pytorch/pytorch</a>&gt;. Accessed 13 February 2020.</p>
+<p>[3] Caraballo-Vega, J., Carroll, M., Li, J., &amp; Duffy, D. (2021, December). Towards Scalable &amp; GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.</p>
 </section>
 
 
