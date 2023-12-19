@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath('..'))
 
-import vhr_cloudmask
+import vhr_cloudmask  # noqa: E402
 
 project = 'vhr-cloudmask'
 copyright = '2022, Jordan A. Caraballo-Vega'
