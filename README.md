@@ -1,9 +1,5 @@
 # vhr-cloudmask
 
-Python library to perform semantic segmentation of clouds and cloud shadows using
-very-high resolution remote sensing imagery by means of GPUs and CPU parallelization
-for high performance and commodity base environments. 
-
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7613207.svg)](https://doi.org/10.5281/zenodo.7613207)
 ![CI Workflow](https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/ci.yml/badge.svg)
 ![CI to DockerHub ](https://github.com/nasa-nccs-hpda/vhr-cloudmask/actions/workflows/dockerhub.yml/badge.svg)
@@ -11,8 +7,12 @@ for high performance and commodity base environments.
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Coverage Status](https://coveralls.io/repos/github/nasa-nccs-hpda/vhr-cloudmask/badge.svg?branch=main)](https://coveralls.io/github/nasa-nccs-hpda/vhr-cloudmask?branch=main)
 
-GitHub repo: https://github.com/nasa-nccs-hpda/vhr-cloudmask
-Documentation: https://nasa-nccs-hpda.github.io/vhr-cloudmask
+Python library to perform semantic segmentation of clouds and cloud shadows using
+very-high resolution remote sensing imagery by means of GPUs and CPU parallelization
+for high performance and commodity base environments. 
+
+- GitHub repo: https://github.com/nasa-nccs-hpda/vhr-cloudmask
+- Documentation: https://nasa-nccs-hpda.github.io/vhr-cloudmask
 
 ## Objectives
 
