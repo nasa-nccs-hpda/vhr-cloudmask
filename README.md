@@ -104,7 +104,15 @@ If you do not have access to modify the configuration file, or just need to perf
 the regex to the files to predict, or the output directory, manually specify the arguments to the CLI file:
 
 ```bash
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/lscratch,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/above-shrubs.2023.07 python /explore/nobackup/people/jacaraba/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -s predict -o /explore/nobackup/projects/ilab/test/vhr-cloudmask -r /explore/nobackup/projects/3sl/data/Tappan/Tappan16_WV02_20110218_M1BS_1030010008331800_data.tif
+```
 
+### Testing
+
+```bash
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/lscratch,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/above-shrubs.2023.07 python /explore/nobackup/people/jacaraba/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py
+
+#/explore/nobackup/projects/ilab/test/vhr-cloudmask
 ```
 
 ## Data Locations where this Workflow has been Validated
