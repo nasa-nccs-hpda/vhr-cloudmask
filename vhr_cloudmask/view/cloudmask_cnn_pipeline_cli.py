@@ -92,6 +92,7 @@ def main():
 
     logging.info(f'Took {(time.time()-timer)/60.0:.2f} min.')
 
+    return
 
 # -----------------------------------------------------------------------------
 # Invoke the main
