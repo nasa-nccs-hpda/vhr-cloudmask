@@ -102,7 +102,7 @@ To predict via slurm for a large set of files, use the following script which wi
 of jobs (up to your processing limit), and process the remaining files.
 
 ```bash
-bash /explore/nobackup/people/jacaraba/development/vhr-cloudmask/projects/cloud_cnn/slurm/slurm_all.sh
+for i in {0..64}; do sbatch --mem-per-cpu=10240 -G1 -c10 -t05-00:00:00 -J clouds --wrap="singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' -s predict"; done
 ```
 
 ## Infrastructure
@@ -147,32 +147,33 @@ suite as part of upcoming efforts to improve the scalability of our models.
 - Whitesands
 - Siberia
 
-## Development Details
-
 ## Development Pipeline Details
 
-### Running Inference
-
-Once we have trained a model, we will want to perform inference. The following command is an example
-command to run inference given an already predetermined model.
+When performing development (training a model, preprocessing, etc.), we want to run from the 
+dev container so we can add the Python files to the PYTHONPATH. The following commmand is an example
+command to run inference given a configuration file.
 
 ```bash
-singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/lscratch,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/above-shrubs.2023.07 python /explore/nobackup/people/jacaraba/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -c /explore/nobackup/people/jacaraba/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml -s predict
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" \
+  --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+  /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
+  python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
+  -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
+  -s predict
 ```
 
 If you do not have access to modify the configuration file, or just need to perform small changes to the model selection,
 the regex to the files to predict, or the output directory, manually specify the arguments to the CLI file:
 
 ```bash
-singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/lscratch,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/above-shrubs.2023.07 python /explore/nobackup/people/jacaraba/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -s predict -o /explore/nobackup/projects/ilab/test/vhr-cloudmask -r /explore/nobackup/projects/3sl/data/Tappan/Tappan16_WV02_20110218_M1BS_1030010008331800_data.tif
-```
-
-### Testing
-
-```bash
-singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/lscratch,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/above-shrubs.2023.07 python /explore/nobackup/people/jacaraba/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py
-
-#/explore/nobackup/projects/ilab/test/vhr-cloudmask
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" \
+  --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+  /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
+  python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
+  -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
+  -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
+  -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
+  -s predict
 ```
 
 ## Authors

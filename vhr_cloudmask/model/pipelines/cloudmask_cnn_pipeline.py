@@ -8,6 +8,7 @@ import xarray as xr
 import rioxarray as rxr
 from pathlib import Path
 from omegaconf import OmegaConf
+from huggingface_hub import hf_hub_download
 
 from tensorflow_caney.utils.data import modify_bands, \
     get_mean_std_metadata, read_metadata
@@ -117,9 +118,22 @@ class CloudMaskPipeline(CNNSegmentation):
 
         logging.info('Starting prediction stage')
 
+        # if model filename does not exist, load the default model from HF
+        if not os.path.exists(self.conf.model_filename):
+            logging.info(
+                f'{self.conf.model_filename} does not exist. ' +
+                'Dowloading default model from HuggingFace.'
+            )
+            model_filename = hf_hub_download(
+                repo_id=self.conf.hf_repo_id,
+                filename=self.conf.hf_model_filename)
+        else:
+            model_filename = self.conf.model_filename
+        logging.info(f'Model filename: {model_filename}')
+
         # Load model for inference
         model = load_model(
-            model_filename=self.conf.model_filename,
+            model_filename=model_filename,
             model_dir=self.model_dir,
             conf=self.conf
         )
@@ -270,7 +284,7 @@ class CloudMaskPipeline(CNNSegmentation):
 
                 # Add metadata to raster attributes
                 prediction.attrs['long_name'] = (self.conf.experiment_type)
-                prediction.attrs['model_name'] = (self.conf.model_filename)
+                prediction.attrs['model_name'] = (model_filename)
 
                 # TODO: add metadata, need to locate this where we can get
                 # valid pixels (no nodata), to make the proper calculation
@@ -310,7 +324,7 @@ class CloudMaskPipeline(CNNSegmentation):
                     probability.attrs['long_name'] = (
                         self.conf.experiment_type)
                     probability.attrs['model_name'] = (
-                        self.conf.model_filename)
+                        model_filename)
                     probability = probability.transpose("band", "y", "x")
 
                     # Set nodata values on mask
