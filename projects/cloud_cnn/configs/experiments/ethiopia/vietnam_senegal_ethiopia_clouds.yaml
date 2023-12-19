@@ -61,10 +61,15 @@ max_epochs: 6000
 #inference_regex: '/adapt/nobackup/projects/ilab/projects/Senegal/Tapan_data/Tappan12_WV02_20140925_M1BS_103001003775F400_data.tif'
 
 #model_filename: /adapt/nobackup/projects/ilab/projects/VHRCloudMask/Vietnam/cnn/models/23-0.05-vietnam-only-10000norm-binarycross.hdf5
-model_filename: /adapt/nobackup/projects/ilab/projects/VHRCloudMask/Senegal/cnn/models/46-0.04-vietnam-senegal-10000norm-binarycross.hdf5
+#model_filename: /adapt/nobackup/projects/ilab/projects/VHRCloudMask/Senegal/cnn/models/46-0.04-vietnam-senegal-10000norm-binarycross.hdf5
+model_filename: /explore/nobackup/projects/ilab/projects/CloudMask/VHRCloudMask-Paper/Vietnam/cnn/models/22-0.06-vietnam-senegal-128ts-10000norm-binarycross.hdf5
 #model_filename: /lscratch/jacaraba/vietnam-senegal-lcluc/clouds-iuoloss/model/42-0.04.hdf5
-inference_regex: '/adapt/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/data_fixed/*.tif'
-inference_save_dir: /adapt/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/cnn/predictions/46-0.04-vietnam-senegal-10000norm-binarycross-0.40thresh
+inference_regex_list:
+  #- '/adapt/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/data_fixed/*.tif'
+  - '/explore/nobackup/projects/hls/EVHR/Amhara-MS/WV02_20210601_M1BS_10300100BF816100-toa.tif'
+  - '/explore/nobackup/projects/hls/EVHR/Amhara-MS/WV02_20100331_M1BS_103001000470DA00-toa.tif'
+  - '/explore/nobackup/projects/hls/EVHR/Amhara-MS/WV03_20220204_M1BS_1040010073369100-toa.tif'
+inference_save_dir: /explore/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/cnn/predictions/46-0.04-vietnam-senegal-10000norm-binarycross-0.40thresh
 #inference_save_dir: /adapt/nobackup/projects/ilab/projects/VHRCloudMask/Ethiopia/cnn/predictions/42-0.04-vietnam-senegal-128ts-10000norm-tversky
 
 window_size: 8192
