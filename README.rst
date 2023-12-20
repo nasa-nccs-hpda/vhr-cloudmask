@@ -31,10 +31,14 @@ for high performance and commodity base environments.
 - `Objectives`_
 - `Background`_
 - `Getting Started`_
-- `Examples`_
-- `Best Practices`_
-- `Contributing`_
+- `Infrastructure`_
+- `Package Structure`_
+- `Data Locations where this Workflow has been Validated`_
+- `Development Pipeline Details`_
+- `Authors`_
 - `Contributors`_
+- `Contributing`_
+- `Citations`_
 - `References`_
 
 Objectives
@@ -78,17 +82,17 @@ Downloading the Container
 All Python and GPU depenencies are installed in an OCI compliant Docker image. You can
 download this image into a Singularity format to use in HPC systems.
 
-```bash
-singularity pull docker://nasanccs/vhr-cloudmask:latest
-```
+.. code:: python
+
+        singularity pull docker://nasanccs/vhr-cloudmask:latest
 
 In some cases, HPC systems require Singularity containers to be built as sandbox environments because
 of uid issues (this is the case of NCCS Explore). For that case you can build a sandbox using the following
 command. Depending the filesystem, this can take between 5 minutes to an hour.
 
-```bash
-singularity build --sandbox vhr-cloudmask docker://nasanccs/vhr-cloudmask:latest
-```
+.. code:: python
+
+        singularity build --sandbox vhr-cloudmask docker://nasanccs/vhr-cloudmask:latest
 
 If you have done this step, you can skip the Installation step since the containers already
 come with all dependencies installed.
@@ -105,16 +109,16 @@ NVIDIA libraries are installed locally in the system if not using conda.
 vhr-cloudmask is available on [PyPI](https://pypi.org/project/vhr-cloudmask/).
 To install vhr-cloudmask, run this command in your terminal or from inside a container:
 
-```bash
-pip install vhr-cloudmask
-```
+.. code:: python
+
+        pip install vhr-cloudmask
 
 If you have installed vhr-cloudmask before and want to upgrade to the latest version,
 you can run the following command in your terminal:
 
-```bash
-pip install -U vhr-cloudmask
-```
+.. code:: python
+
+        pip install -U vhr-cloudmask
 
 Running Inference of Clouds
 ------------------------------
@@ -133,20 +137,20 @@ vhr_cloumask_cli options:
 - '-o': output directory to store cloud masks
 - '-s': pipeline step, to generate masks only we want to predict
 
-```bash
-singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
-  /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli \
-  -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
-  -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
-  -s predict
-```
+.. code:: python
+
+        singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+        /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli \
+        -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
+        -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
+        -s predict
 
 To predict via slurm for a large set of files, use the following script which will start a large number
 of jobs (up to your processing limit), and process the remaining files.
 
-```bash
-for i in {0..64}; do sbatch --mem-per-cpu=10240 -G1 -c10 -t05-00:00:00 -J clouds --wrap="singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' -s predict"; done
-```
+.. code:: python
+
+        for i in {0..64}; do sbatch --mem-per-cpu=10240 -G1 -c10 -t05-00:00:00 -J clouds --wrap="singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' -s predict"; done
 
 Infrastructure
 =================
@@ -163,7 +167,8 @@ implemented in the inference process.
 Package Structure
 ====================
 
-``` bash
+.. code:: python
+
 ├── archives              <- Legacy code stored to historical reference
 ├── docs                  <- Default documentation for working with this project
 ├── images                <- Store project images
@@ -176,7 +181,6 @@ Package Structure
 ├── CHANGELOG.md          <- Releases documentation
 ├── LICENSE               <- License documentation
 └── setup.py              <- Script to install library
-```
 
 Data Locations where this Workflow has been Validated
 ========================================================
@@ -200,28 +204,28 @@ When performing development (training a model, preprocessing, etc.), we want to 
 dev container so we can add the Python files to the PYTHONPATH. The following commmand is an example
 command to run inference given a configuration file.
 
-```bash
-singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" \
-  --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
-  /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
-  python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
-  -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
-  -s predict
-```
+.. code:: python
+
+        singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" \
+        --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+        /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
+        python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
+        -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
+        -s predict
 
 If you do not have access to modify the configuration file, or just need to perform small changes to the model selection,
 the regex to the files to predict, or the output directory, manually specify the arguments to the CLI file:
 
-```bash
-singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" \
-  --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
-  /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
-  python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
-  -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
-  -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
-  -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
-  -s predict
-```
+.. code:: python
+
+        singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" \
+        --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+        /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
+        python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
+        -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
+        -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
+        -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
+        -s predict
 
 Authors
 ====================
@@ -283,48 +287,20 @@ If you are proposing a feature:
 - Keep the scope as narrow as possible, to make it easier to implement.
 - Remember that this is a volunteer-driven project, and that contributions are welcome :)
 
-References
-==============
+Citations
+============
 
 Tutorials will be published under [Medium](https://medium.com/@jordan.caraballo/) for additional support
 and development, including how to use the library or any upcoming releases.
 
-Please consider citing this when using vhr-cloudmask in a project. You can use the citation BibTeX to site
-bot the software and the article:
+If you find this code or methodology useful, please consider citing the following paper and/or code.
 
-Paper
------------
+* Caraballo-Vega, J. A., Carroll, M. L., Neigh, C. S. R., Wooten, M., Lee, B., Weis, A., ... & Williams, Z. (2023).
+  Optimizing WorldView-2,-3 cloud masking using machine learning approaches. Remote Sensing of Environment, 284, 113332.
+* Jordan Alexis Caraballo-Vega. (2023). nasa-nccs-hpda/vhr-cloudmask: 1.2.0 (1.2.0). Zenodo. https://doi.org/10.5281/zenodo.10408125
 
-```bibtex
-@article{caraballo2023optimizing,
-  title={Optimizing WorldView-2,-3 cloud masking using machine learning approaches},
-  author={Caraballo-Vega, JA and Carroll, ML and Neigh, CSR and Wooten, M and Lee, B and Weis, A and Aronne, M and Alemu, WG and Williams, Z},
-  journal={Remote Sensing of Environment},
-  volume={284},
-  pages={113332},
-  year={2023},
-  publisher={Elsevier}
-}
-```
-
-Software
------------
-
-```bibtex
-@software{jordan_alexis_caraballo_vega_2021_7613207,
-  author       = {Jordan Alexis Caraballo-Vega},
-  title        = {vhr-cloudmask},
-  month        = dec,
-  year         = 2021,
-  publisher    = {Zenodo},
-  version      = {1.0.0},
-  doi          = {10.5281/zenodo.7613207},
-  url          = {https://doi.org/10.5281/zenodo.7613207}
-}
-```
-
-Additional References
------------------------
+References
+============
 
 [1] Raschka, S., Patterson, J., & Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.
 
