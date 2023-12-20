@@ -51,7 +51,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">vhr-cloudmask</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">vhr-cloudmask package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#vhr-cloudmask-model-config-cloudmask-config">vhr_cloudmask.model.config.cloudmask_config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-vhr_cloudmask.model.config.cloudmask_config">vhr_cloudmask.model.config.cloudmask_config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vhr-cloudmask-model-pipelines-cloudmask-cnn-pipeline">vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vhr-cloudmask-view-cloudmask-cnn-pipeline-cli">vhr_cloudmask.view.cloudmask_cnn_pipeline_cli</a></li>
 </ul>
@@ -84,8 +84,106 @@
              
   <section id="vhr-cloudmask-package">
 <h1>vhr-cloudmask package<a class="headerlink" href="#vhr-cloudmask-package" title="Permalink to this heading"></a></h1>
-<section id="vhr-cloudmask-model-config-cloudmask-config">
-<h2>vhr_cloudmask.model.config.cloudmask_config<a class="headerlink" href="#vhr-cloudmask-model-config-cloudmask-config" title="Permalink to this heading"></a></h2>
+<section id="module-vhr_cloudmask.model.config.cloudmask_config">
+<span id="vhr-cloudmask-model-config-cloudmask-config"></span><h2>vhr_cloudmask.model.config.cloudmask_config<a class="headerlink" href="#module-vhr_cloudmask.model.config.cloudmask_config" title="Permalink to this heading"></a></h2>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig" title="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CloudMaskConfig</span></code></a>(data_dir, model_dir, model)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vhr_cloudmask.model.config.cloudmask_config.</span></span><span class="sig-name descname"><span class="pre">CloudMaskConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_save_dir='results'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_name='unet-cnn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_type='landcover'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed=24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_devices='0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">3'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixed_precision=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xla=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_bands=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_bands=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modify_labels=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substract_labels=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand_dims=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tile_size=256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_classes=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">augment=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_crop=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_data=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata_fractional=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata_fractional_tolerance=0.75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_tiles_dir=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_from_json=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_label=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rescale=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardization=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size=32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_size=0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss='tf.keras.losses.CategoricalCrossentropy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer='tf.keras.optimizers.Adam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transfer_learning=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transfer_learning_weights=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transfer_learning_fine_tune_at=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate=0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs=6000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience=7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_filename=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_regex='*.tif'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_regex_list=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size=8120</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_overlap=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_treshold=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_pad_value=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_algorithm='triang'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_batch_size=128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability_map=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_dtype='uint8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_nodata=255</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_compress='LZW'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_driver='GTiff'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_regex=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_database=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_classes=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_colors=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_truth_regex=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hf_repo_id='nasa-cisto-data-science-group/vhr-cloudmask'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hf_model_filename='cloudmask-vietnam-senegal-46-0.04.hdf5'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vhr_cloudmask/model/config/cloudmask_config.html#CloudMaskConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p><strong>Attributes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_model_filename" title="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_model_filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hf_model_filename</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_repo_id" title="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_repo_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hf_repo_id</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.test_classes" title="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.test_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_classes</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.callbacks">
+<span class="sig-name descname"><span class="pre">callbacks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.callbacks" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.data_dir">
+<span class="sig-name descname"><span class="pre">data_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.data_dir" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_model_filename">
+<span class="sig-name descname"><span class="pre">hf_model_filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cloudmask-vietnam-senegal-46-0.04.hdf5'</span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_model_filename" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_repo_id">
+<span class="sig-name descname"><span class="pre">hf_repo_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'nasa-cisto-data-science-group/vhr-cloudmask'</span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.hf_repo_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.inference_regex_list">
+<span class="sig-name descname"><span class="pre">inference_regex_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.inference_regex_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.input_bands">
+<span class="sig-name descname"><span class="pre">input_bands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.input_bands" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.mean" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.metrics">
+<span class="sig-name descname"><span class="pre">metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.metrics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.model">
+<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.model_dir">
+<span class="sig-name descname"><span class="pre">model_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.model_dir" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.output_bands">
+<span class="sig-name descname"><span class="pre">output_bands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.output_bands" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.std">
+<span class="sig-name descname"><span class="pre">std</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.std" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.test_classes">
+<span class="sig-name descname"><span class="pre">test_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.test_classes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.test_colors">
+<span class="sig-name descname"><span class="pre">test_colors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#vhr_cloudmask.model.config.cloudmask_config.CloudMaskConfig.test_colors" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="vhr-cloudmask-model-pipelines-cloudmask-cnn-pipeline">
 <h2>vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline<a class="headerlink" href="#vhr-cloudmask-model-pipelines-cloudmask-cnn-pipeline" title="Permalink to this heading"></a></h2>
