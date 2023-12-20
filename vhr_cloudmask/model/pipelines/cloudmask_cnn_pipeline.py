@@ -29,7 +29,25 @@ __status__ = "Production"
 # class CloudMaskPipeline
 # -----------------------------------------------------------------------------
 class CloudMaskPipeline(CNNSegmentation):
+    """This is a conceptual class representation of a CNN Segmentation
+    TensorFlow pipeline. It is essentially an extended combination of the
+    :class:`tensorflow_caney.model.pipelines.cnn_segmentation.CNNSegmentation`.
 
+    :param logger: A logger device
+    :type logger: str
+    :param conf: Configuration device
+    :type conf: omegaconf.OmegeConf object
+    :param data_csv: CSV filename with data files for training
+    :type data_csv: str
+    :param experiment_name: Experiment name description
+    :type experiment_name: str
+    :param images_dir: Directory to store training images
+    :type images_dir: str
+    :param labels_dir: Directory to store training labels
+    :type labels_dir: str
+    :param model_dir: Directory to store trained models
+    :type model_dir: str
+    """
     # -------------------------------------------------------------------------
     # __init__
     # -------------------------------------------------------------------------
@@ -43,6 +61,8 @@ class CloudMaskPipeline(CNNSegmentation):
                 default_config: str = 'templates/cloudmask_default.yaml',
                 logger=None
             ):
+        """Constructor method
+        """
 
         # Set logger
         self.logger = logger if logger is not None else self._set_logger()
@@ -115,6 +135,12 @@ class CloudMaskPipeline(CNNSegmentation):
     # predict
     # -------------------------------------------------------------------------
     def predict(self) -> None:
+        """This will perform inference on a list of GeoTIFF files provided
+        as a list of regexes from the CLI.
+
+        :return: None, outputs GeoTIFF cloudmask files to disk.
+        :rtype: None
+        """
 
         logging.info('Starting prediction stage')
 
