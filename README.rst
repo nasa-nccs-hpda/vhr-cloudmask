@@ -32,7 +32,6 @@ for high performance and commodity base environments.
 - `Background`_
 - `Getting Started`_
 - `Infrastructure`_
-- `Package Structure`_
 - `Data Locations where this Workflow has been Validated`_
 - `Development Pipeline Details`_
 - `Authors`_
@@ -129,13 +128,15 @@ a singularity exec command with options from both Singularity and the cloud mask
 application.
 
 Singularity options:
-- '-B': mounts a filesystem from the host into the container
-- '--nv': mount container binaries/devices
+
+* '-B': mounts a filesystem from the host into the container
+* '--nv': mount container binaries/devices
 
 vhr_cloumask_cli options:
-- '-r': list of regex strings to find geotiff files to predict from
-- '-o': output directory to store cloud masks
-- '-s': pipeline step, to generate masks only we want to predict
+
+* '-r': list of regex strings to find geotiff files to predict from
+* '-o': output directory to store cloud masks
+* '-s': pipeline step, to generate masks only we want to predict
 
 .. code:: python
 
@@ -163,24 +164,6 @@ The main system requirements from this package are a system with GPUs to acceler
 inference of imagery. If no GPU is available, the process will continue as expected but with a large
 slowdown. There are no minimum system memory requirements given the sliding window procedures
 implemented in the inference process.
-
-Package Structure
-====================
-
-.. code:: python
-
-├── archives              <- Legacy code stored to historical reference
-├── docs                  <- Default documentation for working with this project
-├── images                <- Store project images
-├── notebooks             <- Jupyter notebooks
-├── examples              <- Examples for utilizing the library
-├── requirements          <- Requirements for installing the dependencies
-├── scripts               <- Utility scripts for analysis
-├── vhr_cloudmask         <- Library source code
-├── README.md             <- The top-level README for developers using this project
-├── CHANGELOG.md          <- Releases documentation
-├── LICENSE               <- License documentation
-└── setup.py              <- Script to install library
 
 Data Locations where this Workflow has been Validated
 ========================================================
@@ -230,15 +213,15 @@ the regex to the files to predict, or the output directory, manually specify the
 Authors
 ====================
 
-- Jordan Alexis Caraballo-Vega, jordan.a.caraballo-vega@nasa.gov
-- Caleb S. Spradlin, caleb.s.spradlin@nasa.gov
-- Margaret Wooten, margaret.wooten@nasa.gov
+* Jordan Alexis Caraballo-Vega, jordan.a.caraballo-vega@nasa.gov
+* Caleb S. Spradlin, caleb.s.spradlin@nasa.gov
+* Margaret Wooten, margaret.wooten@nasa.gov
 
 Contributors
 ====================
 
-- Andrew Weis, aweis1998@icloud.com
-- Brian Lee, brianlee52@bren.ucsb.edu
+* Andrew Weis, aweis1998@icloud.com
+* Brian Lee, brianlee52@bren.ucsb.edu
 
 Contributing
 ====================
@@ -255,9 +238,10 @@ Report Bugs
 Report bugs at https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues.
 
 If you are reporting a bug, please include:
-- Your operating system name and version.
-- Any details about your local setup that might be helpful in troubleshooting.
-- Detailed steps to reproduce the bug.
+
+* Your operating system name and version.
+* Any details about your local setup that might be helpful in troubleshooting.
+* Detailed steps to reproduce the bug.
 
 Fix Bugs
 -------------
@@ -283,9 +267,10 @@ Submit Feedback
 The best way to send feedback is to file an issue at https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues.
 
 If you are proposing a feature:
-- Explain in detail how it would work.
-- Keep the scope as narrow as possible, to make it easier to implement.
-- Remember that this is a volunteer-driven project, and that contributions are welcome :)
+
+* Explain in detail how it would work.
+* Keep the scope as narrow as possible, to make it easier to implement.
+* Remember that this is a volunteer-driven project, and that contributions are welcome :)
 
 Citations
 ============
@@ -302,8 +287,6 @@ If you find this code or methodology useful, please consider citing the followin
 References
 ============
 
-[1] Raschka, S., Patterson, J., & Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.
-
-[2] Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, <https://github.com/pytorch/pytorch>. Accessed 13 February 2020.
-
-[3] Caraballo-Vega, J., Carroll, M., Li, J., & Duffy, D. (2021, December). Towards Scalable & GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.
+* Raschka, S., Patterson, J., & Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.
+* Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, <https://github.com/pytorch/pytorch>. Accessed 13 February 2020.
+* Caraballo-Vega, J., Carroll, M., Li, J., & Duffy, D. (2021, December). Towards Scalable & GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.
