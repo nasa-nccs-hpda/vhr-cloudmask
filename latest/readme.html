@@ -73,18 +73,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#submit-feedback">Submit Feedback</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#references">References</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#paper">Paper</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id29">}</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#software">Software</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id34">}</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#additional-references">Additional References</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#citations">Citations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">vhr-cloudmask package</a></li>
@@ -136,10 +126,14 @@ for high performance and commodity base environments.</p>
 <li><p><a class="reference internal" href="#objectives">Objectives</a></p></li>
 <li><p><a class="reference internal" href="#background">Background</a></p></li>
 <li><p><a class="reference internal" href="#getting-started">Getting Started</a></p></li>
-<li><p><a href="#id35"><span class="problematic" id="id36">`Examples`_</span></a></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">`Best Practices`_</span></a></p></li>
-<li><p><a class="reference internal" href="#contributing">Contributing</a></p></li>
+<li><p><a class="reference internal" href="#infrastructure">Infrastructure</a></p></li>
+<li><p><a class="reference internal" href="#package-structure">Package Structure</a></p></li>
+<li><p><a class="reference internal" href="#data-locations-where-this-workflow-has-been-validated">Data Locations where this Workflow has been Validated</a></p></li>
+<li><p><a class="reference internal" href="#development-pipeline-details">Development Pipeline Details</a></p></li>
+<li><p><a class="reference internal" href="#authors">Authors</a></p></li>
 <li><p><a class="reference internal" href="#contributors">Contributors</a></p></li>
+<li><p><a class="reference internal" href="#contributing">Contributing</a></p></li>
+<li><p><a class="reference internal" href="#citations">Citations</a></p></li>
 <li><p><a class="reference internal" href="#references">References</a></p></li>
 </ul>
 <section id="objectives">
@@ -178,15 +172,15 @@ instructions via PIP.</p>
 <h3>Downloading the Container<a class="headerlink" href="#downloading-the-container" title="Permalink to this heading"></a></h3>
 <p>All Python and GPU depenencies are installed in an OCI compliant Docker image. You can
 download this image into a Singularity format to use in HPC systems.</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">singularity</span> <span class="pre">pull</span> <span class="pre">docker://nasanccs/vhr-cloudmask:latest</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">singularity</span> <span class="n">pull</span> <span class="n">docker</span><span class="p">:</span><span class="o">//</span><span class="n">nasanccs</span><span class="o">/</span><span class="n">vhr</span><span class="o">-</span><span class="n">cloudmask</span><span class="p">:</span><span class="n">latest</span>
+</pre></div>
+</div>
 <p>In some cases, HPC systems require Singularity containers to be built as sandbox environments because
 of uid issues (this is the case of NCCS Explore). For that case you can build a sandbox using the following
 command. Depending the filesystem, this can take between 5 minutes to an hour.</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">singularity</span> <span class="pre">build</span> <span class="pre">--sandbox</span> <span class="pre">vhr-cloudmask</span> <span class="pre">docker://nasanccs/vhr-cloudmask:latest</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">singularity</span> <span class="n">build</span> <span class="o">--</span><span class="n">sandbox</span> <span class="n">vhr</span><span class="o">-</span><span class="n">cloudmask</span> <span class="n">docker</span><span class="p">:</span><span class="o">//</span><span class="n">nasanccs</span><span class="o">/</span><span class="n">vhr</span><span class="o">-</span><span class="n">cloudmask</span><span class="p">:</span><span class="n">latest</span>
+</pre></div>
+</div>
 <p>If you have done this step, you can skip the Installation step since the containers already
 come with all dependencies installed.</p>
 </section>
@@ -198,14 +192,14 @@ are listed under the requirements directory so projects, examples, and notebooks
 NVIDIA libraries are installed locally in the system if not using conda.</p>
 <p>vhr-cloudmask is available on [PyPI](<a class="reference external" href="https://pypi.org/project/vhr-cloudmask/">https://pypi.org/project/vhr-cloudmask/</a>).
 To install vhr-cloudmask, run this command in your terminal or from inside a container:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">vhr-cloudmask</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">vhr</span><span class="o">-</span><span class="n">cloudmask</span>
+</pre></div>
+</div>
 <p>If you have installed vhr-cloudmask before and want to upgrade to the latest version,
 you can run the following command in your terminal:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">vhr-cloudmask</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">vhr</span><span class="o">-</span><span class="n">cloudmask</span>
+</pre></div>
+</div>
 </section>
 <section id="running-inference-of-clouds">
 <h3>Running Inference of Clouds<a class="headerlink" href="#running-inference-of-clouds" title="Permalink to this heading"></a></h3>
@@ -220,17 +214,18 @@ application.</p>
 - ‘-r’: list of regex strings to find geotiff files to predict from
 - ‘-o’: output directory to store cloud masks
 - ‘-s’: pipeline step, to generate masks only we want to predict</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>bash
-singularity exec –nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects </p>
-<blockquote>
-<div><p>/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli -o ‘/explore/nobackup/projects/ilab/test/vhr-cloudmask’ -r ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif’ ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif’ -s predict</p>
-</div></blockquote>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli \
+-o &#39;/explore/nobackup/projects/ilab/test/vhr-cloudmask&#39; \
+-r &#39;/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif&#39; &#39;/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif&#39; \
+-s predict
+</pre></div>
+</div>
 <p>To predict via slurm for a large set of files, use the following script which will start a large number
 of jobs (up to your processing limit), and process the remaining files.</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">{0..64};</span> <span class="pre">do</span> <span class="pre">sbatch</span> <span class="pre">--mem-per-cpu=10240</span> <span class="pre">-G1</span> <span class="pre">-c10</span> <span class="pre">-t05-00:00:00</span> <span class="pre">-J</span> <span class="pre">clouds</span> <span class="pre">--wrap=&quot;singularity</span> <span class="pre">exec</span> <span class="pre">--nv</span> <span class="pre">-B</span> <span class="pre">$NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects</span> <span class="pre">/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif</span> <span class="pre">vhr-cloudmask-cli</span> <span class="pre">-o</span> <span class="pre">'/explore/nobackup/projects/ilab/test/vhr-cloudmask'</span> <span class="pre">-r</span> <span class="pre">'/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif'</span> <span class="pre">'/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif'</span> <span class="pre">-s</span> <span class="pre">predict&quot;;</span> <span class="pre">done</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">{</span><span class="mf">0..64</span><span class="p">};</span> <span class="n">do</span> <span class="n">sbatch</span> <span class="o">--</span><span class="n">mem</span><span class="o">-</span><span class="n">per</span><span class="o">-</span><span class="n">cpu</span><span class="o">=</span><span class="mi">10240</span> <span class="o">-</span><span class="n">G1</span> <span class="o">-</span><span class="n">c10</span> <span class="o">-</span><span class="n">t05</span><span class="o">-</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="o">-</span><span class="n">J</span> <span class="n">clouds</span> <span class="o">--</span><span class="n">wrap</span><span class="o">=</span><span class="s2">&quot;singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli -o &#39;/explore/nobackup/projects/ilab/test/vhr-cloudmask&#39; -r &#39;/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif&#39; &#39;/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif&#39; -s predict&quot;</span><span class="p">;</span> <span class="n">done</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="infrastructure">
@@ -245,20 +240,21 @@ implemented in the inference process.</p>
 </section>
 <section id="package-structure">
 <h2>Package Structure<a class="headerlink" href="#package-structure" title="Permalink to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">bash</span>
-<span class="pre">├──</span> <span class="pre">archives</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Legacy</span> <span class="pre">code</span> <span class="pre">stored</span> <span class="pre">to</span> <span class="pre">historical</span> <span class="pre">reference</span>
-<span class="pre">├──</span> <span class="pre">docs</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Default</span> <span class="pre">documentation</span> <span class="pre">for</span> <span class="pre">working</span> <span class="pre">with</span> <span class="pre">this</span> <span class="pre">project</span>
-<span class="pre">├──</span> <span class="pre">images</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Store</span> <span class="pre">project</span> <span class="pre">images</span>
-<span class="pre">├──</span> <span class="pre">notebooks</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Jupyter</span> <span class="pre">notebooks</span>
-<span class="pre">├──</span> <span class="pre">examples</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Examples</span> <span class="pre">for</span> <span class="pre">utilizing</span> <span class="pre">the</span> <span class="pre">library</span>
-<span class="pre">├──</span> <span class="pre">requirements</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Requirements</span> <span class="pre">for</span> <span class="pre">installing</span> <span class="pre">the</span> <span class="pre">dependencies</span>
-<span class="pre">├──</span> <span class="pre">scripts</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Utility</span> <span class="pre">scripts</span> <span class="pre">for</span> <span class="pre">analysis</span>
-<span class="pre">├──</span> <span class="pre">vhr_cloudmask</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Library</span> <span class="pre">source</span> <span class="pre">code</span>
-<span class="pre">├──</span> <span class="pre">README.md</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">The</span> <span class="pre">top-level</span> <span class="pre">README</span> <span class="pre">for</span> <span class="pre">developers</span> <span class="pre">using</span> <span class="pre">this</span> <span class="pre">project</span>
-<span class="pre">├──</span> <span class="pre">CHANGELOG.md</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Releases</span> <span class="pre">documentation</span>
-<span class="pre">├──</span> <span class="pre">LICENSE</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">License</span> <span class="pre">documentation</span>
-<span class="pre">└──</span> <span class="pre">setup.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">&lt;-</span> <span class="pre">Script</span> <span class="pre">to</span> <span class="pre">install</span> <span class="pre">library</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>├── archives              &lt;- Legacy code stored to historical reference
+├── docs                  &lt;- Default documentation for working with this project
+├── images                &lt;- Store project images
+├── notebooks             &lt;- Jupyter notebooks
+├── examples              &lt;- Examples for utilizing the library
+├── requirements          &lt;- Requirements for installing the dependencies
+├── scripts               &lt;- Utility scripts for analysis
+├── vhr_cloudmask         &lt;- Library source code
+├── README.md             &lt;- The top-level README for developers using this project
+├── CHANGELOG.md          &lt;- Releases documentation
+├── LICENSE               &lt;- License documentation
+└── setup.py              &lt;- Script to install library</p>
 </section>
 <section id="data-locations-where-this-workflow-has-been-validated">
 <h2>Data Locations where this Workflow has been Validated<a class="headerlink" href="#data-locations-where-this-workflow-has-been-validated" title="Permalink to this heading"></a></h2>
@@ -280,20 +276,26 @@ suite as part of upcoming efforts to improve the scalability of our models.</p>
 <p>When performing development (training a model, preprocessing, etc.), we want to run from the
 dev container so we can add the Python files to the PYTHONPATH. The following commmand is an example
 command to run inference given a configuration file.</p>
-<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>bash
-singularity exec –env PYTHONPATH=”$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask” </p>
-<blockquote>
-<div><p>–nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml -s predict</p>
-</div></blockquote>
-<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>singularity exec --env PYTHONPATH=&quot;$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask&quot; \
+--nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
+python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
+-c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
+-s predict
+</pre></div>
+</div>
 <p>If you do not have access to modify the configuration file, or just need to perform small changes to the model selection,
 the regex to the files to predict, or the output directory, manually specify the arguments to the CLI file:</p>
-<p><a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a>bash
-singularity exec –env PYTHONPATH=”$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask” </p>
-<blockquote>
-<div><p>–nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml -o ‘/explore/nobackup/projects/ilab/test/vhr-cloudmask’ -r ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif’ ‘/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif’ -s predict</p>
-</div></blockquote>
-<p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>singularity exec --env PYTHONPATH=&quot;$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask&quot; \
+--nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
+/explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif \
+python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.py \
+-c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
+-o &#39;/explore/nobackup/projects/ilab/test/vhr-cloudmask&#39; \
+-r &#39;/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif&#39; &#39;/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif&#39; \
+-s predict
+</pre></div>
+</div>
 </section>
 <section id="authors">
 <h2>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h2>
@@ -348,53 +350,22 @@ in docstrings, or even on the web in blog posts, articles, and such.</p>
 - Remember that this is a volunteer-driven project, and that contributions are welcome :)</p>
 </section>
 </section>
-<section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
+<section id="citations">
+<h2>Citations<a class="headerlink" href="#citations" title="Permalink to this heading"></a></h2>
 <p>Tutorials will be published under [Medium](<a class="reference external" href="https://medium.com/&#64;jordan.caraballo/">https://medium.com/&#64;jordan.caraballo/</a>) for additional support
 and development, including how to use the library or any upcoming releases.</p>
-<p>Please consider citing this when using vhr-cloudmask in a project. You can use the citation BibTeX to site
-bot the software and the article:</p>
-<section id="paper">
-<h3>Paper<a class="headerlink" href="#paper" title="Permalink to this heading"></a></h3>
-<p><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a>bibtex
-&#64;article{caraballo2023optimizing,</p>
-<blockquote>
-<div><p>title={Optimizing WorldView-2,-3 cloud masking using machine learning approaches},
-author={Caraballo-Vega, JA and Carroll, ML and Neigh, CSR and Wooten, M and Lee, B and Weis, A and Aronne, M and Alemu, WG and Williams, Z},
-journal={Remote Sensing of Environment},
-volume={284},
-pages={113332},
-year={2023},
-publisher={Elsevier}</p>
-</div></blockquote>
-<section id="id29">
-<h4>}<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h4>
+<p>If you find this code or methodology useful, please consider citing the following paper and/or code.</p>
+<ul class="simple">
+<li><p>Caraballo-Vega, J. A., Carroll, M. L., Neigh, C. S. R., Wooten, M., Lee, B., Weis, A., … &amp; Williams, Z. (2023).
+Optimizing WorldView-2,-3 cloud masking using machine learning approaches. Remote Sensing of Environment, 284, 113332.</p></li>
+<li><p>Jordan Alexis Caraballo-Vega. (2023). nasa-nccs-hpda/vhr-cloudmask: 1.2.0 (1.2.0). Zenodo. <a class="reference external" href="https://doi.org/10.5281/zenodo.10408125">https://doi.org/10.5281/zenodo.10408125</a></p></li>
+</ul>
 </section>
-</section>
-<section id="software">
-<h3>Software<a class="headerlink" href="#software" title="Permalink to this heading"></a></h3>
-<p><a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a>bibtex
-&#64;software{jordan_alexis_caraballo_vega_2021_7613207,</p>
-<blockquote>
-<div><p>author       = {Jordan Alexis Caraballo-Vega},
-title        = {vhr-cloudmask},
-month        = dec,
-year         = 2021,
-publisher    = {Zenodo},
-version      = {1.0.0},
-doi          = {10.5281/zenodo.7613207},
-url          = {<a class="reference external" href="https://doi.org/10.5281/zenodo.7613207">https://doi.org/10.5281/zenodo.7613207</a>}</p>
-</div></blockquote>
-<section id="id34">
-<h4>}<a class="headerlink" href="#id34" title="Permalink to this heading"></a></h4>
-</section>
-</section>
-<section id="additional-references">
-<h3>Additional References<a class="headerlink" href="#additional-references" title="Permalink to this heading"></a></h3>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
 <p>[1] Raschka, S., Patterson, J., &amp; Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.</p>
 <p>[2] Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, &lt;<a class="reference external" href="https://github.com/pytorch/pytorch">https://github.com/pytorch/pytorch</a>&gt;. Accessed 13 February 2020.</p>
 <p>[3] Caraballo-Vega, J., Carroll, M., Li, J., &amp; Duffy, D. (2021, December). Towards Scalable &amp; GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.</p>
-</section>
 </section>
 </section>
 
