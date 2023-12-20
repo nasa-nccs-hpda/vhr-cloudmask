@@ -5,3 +5,4 @@ sphinx-rtd-theme
 tensorflow-caney
 datasets
 tiler
+huggingface-hub
