@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline &mdash; vhr-cloudmask 1.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            vhr-cloudmask
+          </a>
+              <div class="version">
+                1.2.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../readme.html">vhr-cloudmask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">vhr-cloudmask package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">vhr-cloudmask</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rxr</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">OmegaConf</span>
+<span class="kn">from</span> <span class="nn">huggingface_hub</span> <span class="kn">import</span> <span class="n">hf_hub_download</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow_caney.utils.data</span> <span class="kn">import</span> <span class="n">modify_bands</span><span class="p">,</span> \
+    <span class="n">get_mean_std_metadata</span><span class="p">,</span> <span class="n">read_metadata</span>
+<span class="kn">from</span> <span class="nn">tensorflow_caney.utils</span> <span class="kn">import</span> <span class="n">indices</span>
+<span class="kn">from</span> <span class="nn">tensorflow_caney.inference</span> <span class="kn">import</span> <span class="n">inference</span>
+<span class="kn">from</span> <span class="nn">tensorflow_caney.utils.model</span> <span class="kn">import</span> <span class="n">load_model</span>
+<span class="kn">from</span> <span class="nn">tensorflow_caney.utils.system</span> <span class="kn">import</span> <span class="n">seed_everything</span>
+
+<span class="kn">from</span> <span class="nn">vhr_cloudmask.model.config.cloudmask_config</span> \
+    <span class="kn">import</span> <span class="nn">CloudMaskConfig</span> <span class="k">as</span> <span class="nn">Config</span>
+<span class="kn">from</span> <span class="nn">tensorflow_caney.model.pipelines.cnn_segmentation</span> <span class="kn">import</span> <span class="n">CNNSegmentation</span>
+
+<span class="n">CHUNKS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;band&#39;</span><span class="p">:</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;auto&#39;</span><span class="p">}</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Production&quot;</span>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># class CloudMaskPipeline</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="CloudMaskPipeline"><a class="viewcode-back" href="../../../../modules.html#vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline">[docs]</a><span class="k">class</span> <span class="nc">CloudMaskPipeline</span><span class="p">(</span><span class="n">CNNSegmentation</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This is a conceptual class representation of a CNN Segmentation</span>
+<span class="sd">    TensorFlow pipeline. It is essentially an extended combination of the</span>
+<span class="sd">    :class:`tensorflow_caney.model.pipelines.cnn_segmentation.CNNSegmentation`.</span>
+
+<span class="sd">    :param logger: A logger device</span>
+<span class="sd">    :type logger: str</span>
+<span class="sd">    :param conf: Configuration device</span>
+<span class="sd">    :type conf: omegaconf.OmegeConf object</span>
+<span class="sd">    :param data_csv: CSV filename with data files for training</span>
+<span class="sd">    :type data_csv: str</span>
+<span class="sd">    :param experiment_name: Experiment name description</span>
+<span class="sd">    :type experiment_name: str</span>
+<span class="sd">    :param images_dir: Directory to store training images</span>
+<span class="sd">    :type images_dir: str</span>
+<span class="sd">    :param labels_dir: Directory to store training labels</span>
+<span class="sd">    :type labels_dir: str</span>
+<span class="sd">    :param model_dir: Directory to store trained models</span>
+<span class="sd">    :type model_dir: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># __init__</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">config_filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">data_csv</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">model_filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">inference_regex_list</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">default_config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;templates/cloudmask_default.yaml&#39;</span><span class="p">,</span>
+                <span class="n">logger</span><span class="o">=</span><span class="kc">None</span>
+            <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Set logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_logger</span><span class="p">()</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Initializing CloudMaskPipeline&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Configuration file intialization</span>
+        <span class="k">if</span> <span class="n">config_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">config_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))),</span>
+                <span class="n">default_config</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loading default config: </span><span class="si">{</span><span class="n">config_filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># load configuration into object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_config</span><span class="p">(</span><span class="n">config_filename</span><span class="p">,</span> <span class="n">Config</span><span class="p">)</span>
+
+        <span class="c1"># rewrite model filename option if given from CLI</span>
+        <span class="k">if</span> <span class="n">model_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model_filename</span><span class="p">),</span> \
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">model_filename</span><span class="si">}</span><span class="s1"> does not exist.&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">model_filename</span> <span class="o">=</span> <span class="n">model_filename</span>
+
+        <span class="c1"># rewrite output directory if given from CLI</span>
+        <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_save_dir</span> <span class="o">=</span> <span class="n">output_dir</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_save_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># rewrite inference regex list</span>
+        <span class="k">if</span> <span class="n">inference_regex_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_regex_list</span> <span class="o">=</span> <span class="n">inference_regex_list</span>
+
+        <span class="c1"># Set Data CSV</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_csv</span> <span class="o">=</span> <span class="n">data_csv</span>
+
+        <span class="c1"># Set experiment name</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_name</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">experiment_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_name</span>
+
+        <span class="c1"># Output directories for metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">images_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;images&#39;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Images dir: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">images_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;labels&#39;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Labels dir: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">model_dir</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Model dir:  </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Output dir: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_save_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Create output directories</span>
+        <span class="k">for</span> <span class="n">out_dir</span> <span class="ow">in</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">images_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_dir</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">]:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># save configuration into the model directory</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">OmegaConf</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">,</span> <span class="s1">&#39;config.yaml&#39;</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;No permissions to save config, skipping step.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Seed everything</span>
+        <span class="n">seed_everything</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># predict</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="CloudMaskPipeline.predict"><a class="viewcode-back" href="../../../../modules.html#vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This will perform inference on a list of GeoTIFF files provided</span>
+<span class="sd">        as a list of regexes from the CLI.</span>
+
+<span class="sd">        :return: None, outputs GeoTIFF cloudmask files to disk.</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Starting prediction stage&#39;</span><span class="p">)</span>
+
+        <span class="c1"># if model filename does not exist, load the default model from HF</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">model_filename</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">model_filename</span><span class="si">}</span><span class="s1"> does not exist. &#39;</span> <span class="o">+</span>
+                <span class="s1">&#39;Dowloading default model from HuggingFace.&#39;</span>
+            <span class="p">)</span>
+            <span class="n">model_filename</span> <span class="o">=</span> <span class="n">hf_hub_download</span><span class="p">(</span>
+                <span class="n">repo_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">hf_repo_id</span><span class="p">,</span>
+                <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">hf_model_filename</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">model_filename</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Model filename: </span><span class="si">{</span><span class="n">model_filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Load model for inference</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span>
+            <span class="n">model_filename</span><span class="o">=</span><span class="n">model_filename</span><span class="p">,</span>
+            <span class="n">model_dir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">,</span>
+            <span class="n">conf</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Retrieve mean and std, there should be a more ideal place</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">standardization</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;global&quot;</span><span class="p">,</span> <span class="s2">&quot;mixed&quot;</span><span class="p">]:</span>
+            <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">get_mean_std_metadata</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s1">&#39;mean-std-</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_name</span><span class="si">}</span><span class="s1">.csv&#39;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean: </span><span class="si">{</span><span class="n">mean</span><span class="si">}</span><span class="s1">, Std: </span><span class="si">{</span><span class="n">std</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># gather metadata</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">metadata_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">read_metadata</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">metadata_regex</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">input_bands</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">output_bands</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Gather filenames to predict</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_regex_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data_filenames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filenames</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_regex_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_filenames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filenames</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_regex</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_filenames</span><span class="p">)</span><span class="si">}</span><span class="s1"> files to predict&#39;</span><span class="p">)</span>
+
+        <span class="c1"># iterate files, create lock file to avoid predicting the same file</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data_filenames</span><span class="p">):</span>
+
+            <span class="c1"># start timer</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="c1"># set output directory</span>
+            <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">basename</span> <span class="o">==</span> <span class="s1">&#39;M1BS&#39;</span> <span class="ow">or</span> <span class="n">basename</span> <span class="o">==</span> <span class="s1">&#39;P1BS&#39;</span><span class="p">:</span>
+                <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filename</span><span class="p">)))</span>
+
+            <span class="n">output_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_save_dir</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_directory</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># set prediction output filename</span>
+            <span class="n">output_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">output_directory</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_type</span><span class="si">}</span><span class="s1">.tif&#39;</span><span class="p">)</span>
+
+            <span class="c1"># lock file for multi-node, multi-processing</span>
+            <span class="n">lock_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_filename</span><span class="si">}</span><span class="s1">.lock&#39;</span>
+
+            <span class="c1"># predict only if file does not exist and no lock file</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">output_filename</span><span class="p">)</span> <span class="ow">and</span> \
+                    <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">lock_filename</span><span class="p">):</span>
+
+                <span class="k">try</span><span class="p">:</span>
+
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Starting to predict </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                    <span class="c1"># if metadata is available</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">metadata_regex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+                        <span class="c1"># get timestamp from filename</span>
+                        <span class="n">year_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+                            <span class="sa">r</span><span class="s1">&#39;(\d</span><span class="si">{4}</span><span class="s1">)(\d</span><span class="si">{2}</span><span class="s1">)(\d</span><span class="si">{2}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                        <span class="n">timestamp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+
+                        <span class="c1"># get monthly values</span>
+                        <span class="n">mean</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">timestamp</span><span class="p">][</span><span class="s1">&#39;median&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+                        <span class="n">std</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">timestamp</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">standardization</span> <span class="o">=</span> <span class="s1">&#39;global&#39;</span>
+
+                    <span class="c1"># create lock file</span>
+                    <span class="nb">open</span><span class="p">(</span><span class="n">lock_filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+                    <span class="c1"># open filename</span>
+                    <span class="n">image</span> <span class="o">=</span> <span class="n">rxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Prediction shape: </span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                    <span class="c1"># check bands in imagery, do not proceed if one band</span>
+                    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                            <span class="s1">&#39;Skipping file because of non sufficient bands&#39;</span><span class="p">)</span>
+                        <span class="k">continue</span>
+
+                <span class="k">except</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">RasterioIOError</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Skipped </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">, probably corrupted.&#39;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Calculate indices and append to the original raster</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">add_indices</span><span class="p">(</span>
+                    <span class="n">xraster</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">input_bands</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">input_bands</span><span class="p">,</span>
+                    <span class="n">output_bands</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">output_bands</span><span class="p">)</span>
+
+                <span class="c1"># Modify the bands to match inference details</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">modify_bands</span><span class="p">(</span>
+                    <span class="n">xraster</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">input_bands</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">input_bands</span><span class="p">,</span>
+                    <span class="n">output_bands</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">output_bands</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Prediction shape after modf: </span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Prediction min=</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s1">, &#39;</span> <span class="o">+</span>
+                    <span class="sa">f</span><span class="s1">&#39;max=</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                <span class="c1"># Transpose the image for channel last format</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;band&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Remove no-data values to account for edge effects</span>
+                <span class="n">temporary_tif</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">image</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+
+                <span class="c1"># Sliding window prediction</span>
+                <span class="n">prediction</span><span class="p">,</span> <span class="n">probability</span> <span class="o">=</span> \
+                    <span class="n">inference</span><span class="o">.</span><span class="n">sliding_window_tiler_multiclass</span><span class="p">(</span>
+                        <span class="n">xraster</span><span class="o">=</span><span class="n">temporary_tif</span><span class="p">,</span>
+                        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                        <span class="n">n_classes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">n_classes</span><span class="p">,</span>
+                        <span class="n">overlap</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_overlap</span><span class="p">,</span>
+                        <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">pred_batch_size</span><span class="p">,</span>
+                        <span class="n">threshold</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inference_treshold</span><span class="p">,</span>
+                        <span class="n">standardization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">standardization</span><span class="p">,</span>
+                        <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
+                        <span class="n">std</span><span class="o">=</span><span class="n">std</span><span class="p">,</span>
+                        <span class="n">normalize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">normalize</span><span class="p">,</span>
+                        <span class="n">rescale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">rescale</span><span class="p">,</span>
+                        <span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">window_algorithm</span><span class="p">,</span>
+                        <span class="n">probability_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">probability_map</span>
+                    <span class="p">)</span>
+
+                <span class="c1"># Drop image band to allow for a merge of mask</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+                    <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;band&quot;</span><span class="p">,</span>
+                    <span class="n">labels</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s2">&quot;band&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Get metadata to save raster prediction</span>
+                <span class="n">prediction</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_type</span><span class="p">,</span>
+                    <span class="n">coords</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+                    <span class="n">dims</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+                    <span class="n">attrs</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">attrs</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Add metadata to raster attributes</span>
+                <span class="n">prediction</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_type</span><span class="p">)</span>
+                <span class="n">prediction</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_filename</span><span class="p">)</span>
+
+                <span class="c1"># TODO: add metadata, need to locate this where we can get</span>
+                <span class="c1"># valid pixels (no nodata), to make the proper calculation</span>
+                <span class="c1"># prediction.attrs[&#39;pct_cloudcover_total&#39;] = 100 * (</span>
+                <span class="c1">#    total cloudcover pixels / total valid image pixels)</span>
+
+                <span class="n">prediction</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;band&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Set nodata values on mask</span>
+                <span class="n">nodata</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">nodata</span>
+                <span class="n">prediction</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">image</span> <span class="o">!=</span> <span class="n">nodata</span><span class="p">)</span>
+                <span class="n">prediction</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_nodata</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">prediction_nodata</span><span class="p">,</span> <span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># Save output raster file to disk</span>
+                <span class="n">prediction</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">to_raster</span><span class="p">(</span>
+                    <span class="n">output_filename</span><span class="p">,</span>
+                    <span class="n">BIGTIFF</span><span class="o">=</span><span class="s2">&quot;IF_SAFER&quot;</span><span class="p">,</span>
+                    <span class="n">compress</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">prediction_compress</span><span class="p">,</span>
+                    <span class="n">driver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">prediction_driver</span><span class="p">,</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">prediction_dtype</span>
+                <span class="p">)</span>
+                <span class="k">del</span> <span class="n">prediction</span>
+
+                <span class="c1"># save probability map</span>
+                <span class="k">if</span> <span class="n">probability</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+                    <span class="n">probability</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">probability</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_type</span><span class="p">,</span>
+                        <span class="n">coords</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+                        <span class="n">dims</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+                        <span class="n">attrs</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">attrs</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Add metadata to raster attributes</span>
+                    <span class="n">probability</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">experiment_type</span><span class="p">)</span>
+                    <span class="n">probability</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;model_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">model_filename</span><span class="p">)</span>
+                    <span class="n">probability</span> <span class="o">=</span> <span class="n">probability</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;band&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># Set nodata values on mask</span>
+                    <span class="n">nodata</span> <span class="o">=</span> <span class="n">probability</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">nodata</span>
+                    <span class="n">probability</span> <span class="o">=</span> <span class="n">probability</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">image</span> <span class="o">!=</span> <span class="n">nodata</span><span class="p">)</span>
+                    <span class="n">probability</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">write_nodata</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">prediction_nodata</span><span class="p">,</span>
+                        <span class="n">encoded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Save output raster file to disk</span>
+                    <span class="n">probability</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">to_raster</span><span class="p">(</span>
+                        <span class="n">Path</span><span class="p">(</span><span class="n">output_filename</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.prob.tif&#39;</span><span class="p">),</span>
+                        <span class="n">BIGTIFF</span><span class="o">=</span><span class="s2">&quot;IF_SAFER&quot;</span><span class="p">,</span>
+                        <span class="n">compress</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">prediction_compress</span><span class="p">,</span>
+                        <span class="n">driver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">prediction_driver</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span>
+                    <span class="p">)</span>
+                    <span class="k">del</span> <span class="n">probability</span>
+
+                <span class="c1"># delete lock file</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lock_filename</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Lock file not found </span><span class="si">{</span><span class="n">lock_filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Finished processing </span><span class="si">{</span><span class="n">output_filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="si">}</span><span class="s2"> min&quot;</span><span class="p">)</span>
+
+            <span class="c1"># This is the case where the prediction was already saved</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_filename</span><span class="si">}</span><span class="s1"> already predicted.&#39;</span><span class="p">)</span>
+        <span class="k">return</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jordan A. Caraballo-Vega.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

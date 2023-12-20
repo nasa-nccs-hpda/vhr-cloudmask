@@ -52,8 +52,8 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html">vhr-cloudmask</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">vhr-cloudmask package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-vhr_cloudmask.model.config.cloudmask_config">vhr_cloudmask.model.config.cloudmask_config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#vhr-cloudmask-model-pipelines-cloudmask-cnn-pipeline">vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#vhr-cloudmask-view-cloudmask-cnn-pipeline-cli">vhr_cloudmask.view.cloudmask_cnn_pipeline_cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline">vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-vhr_cloudmask.view.cloudmask_cnn_pipeline_cli">vhr_cloudmask.view.cloudmask_cnn_pipeline_cli</a></li>
 </ul>
 </li>
 </ul>
@@ -185,11 +185,77 @@
 </dd></dl>
 
 </section>
-<section id="vhr-cloudmask-model-pipelines-cloudmask-cnn-pipeline">
-<h2>vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline<a class="headerlink" href="#vhr-cloudmask-model-pipelines-cloudmask-cnn-pipeline" title="Permalink to this heading"></a></h2>
+<section id="module-vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline">
+<span id="vhr-cloudmask-model-pipelines-cloudmask-cnn-pipeline"></span><h2>vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline<a class="headerlink" href="#module-vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline" title="Permalink to this heading"></a></h2>
+<p><strong>Classes:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline" title="vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CloudMaskPipeline</span></code></a>([config_filename, ...])</p></td>
+<td><p>This is a conceptual class representation of a CNN Segmentation TensorFlow pipeline.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.</span></span><span class="sig-name descname"><span class="pre">CloudMaskPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference_regex_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'templates/cloudmask_default.yaml'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vhr_cloudmask/model/pipelines/cloudmask_cnn_pipeline.html#CloudMaskPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CNNSegmentation</span></code></p>
+<p>This is a conceptual class representation of a CNN Segmentation
+TensorFlow pipeline. It is essentially an extended combination of the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow_caney.model.pipelines.cnn_segmentation.CNNSegmentation</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger</strong> (<em>str</em>) – A logger device</p></li>
+<li><p><strong>conf</strong> (<em>omegaconf.OmegeConf object</em>) – Configuration device</p></li>
+<li><p><strong>data_csv</strong> (<em>str</em>) – CSV filename with data files for training</p></li>
+<li><p><strong>experiment_name</strong> (<em>str</em>) – Experiment name description</p></li>
+<li><p><strong>images_dir</strong> (<em>str</em>) – Directory to store training images</p></li>
+<li><p><strong>labels_dir</strong> (<em>str</em>) – Directory to store training labels</p></li>
+<li><p><strong>model_dir</strong> (<em>str</em>) – Directory to store trained models</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Methods:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline.predict" title="vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>()</p></td>
+<td><p>This will perform inference on a list of GeoTIFF files provided as a list of regexes from the CLI.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/vhr_cloudmask/model/pipelines/cloudmask_cnn_pipeline.html#CloudMaskPipeline.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vhr_cloudmask.model.pipelines.cloudmask_cnn_pipeline.CloudMaskPipeline.predict" title="Permalink to this definition"></a></dt>
+<dd><p>This will perform inference on a list of GeoTIFF files provided
+as a list of regexes from the CLI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None, outputs GeoTIFF cloudmask files to disk.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="vhr-cloudmask-view-cloudmask-cnn-pipeline-cli">
-<h2>vhr_cloudmask.view.cloudmask_cnn_pipeline_cli<a class="headerlink" href="#vhr-cloudmask-view-cloudmask-cnn-pipeline-cli" title="Permalink to this heading"></a></h2>
+<section id="module-vhr_cloudmask.view.cloudmask_cnn_pipeline_cli">
+<span id="vhr-cloudmask-view-cloudmask-cnn-pipeline-cli"></span><h2>vhr_cloudmask.view.cloudmask_cnn_pipeline_cli<a class="headerlink" href="#module-vhr_cloudmask.view.cloudmask_cnn_pipeline_cli" title="Permalink to this heading"></a></h2>
+<p><strong>Functions:</strong></p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#vhr_cloudmask.view.cloudmask_cnn_pipeline_cli.main" title="vhr_cloudmask.view.cloudmask_cnn_pipeline_cli.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="vhr_cloudmask.view.cloudmask_cnn_pipeline_cli.main">
+<span class="sig-prename descclassname"><span class="pre">vhr_cloudmask.view.cloudmask_cnn_pipeline_cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/vhr_cloudmask/view/cloudmask_cnn_pipeline_cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vhr_cloudmask.view.cloudmask_cnn_pipeline_cli.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 </section>
 
