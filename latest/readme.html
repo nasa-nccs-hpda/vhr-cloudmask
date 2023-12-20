@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>vhr-cloudmask &mdash; vhr-cloudmask 1.1.0 documentation</title>
+  <title>vhr-cloudmask &mdash; vhr-cloudmask 1.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
 
@@ -38,7 +38,7 @@
             vhr-cloudmask
           </a>
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -60,7 +60,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#infrastructure">Infrastructure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#package-structure">Package Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-locations-where-this-workflow-has-been-validated">Data Locations where this Workflow has been Validated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#development-pipeline-details">Development Pipeline Details</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#authors">Authors</a></li>
@@ -127,7 +126,6 @@ for high performance and commodity base environments.</p>
 <li><p><a class="reference internal" href="#background">Background</a></p></li>
 <li><p><a class="reference internal" href="#getting-started">Getting Started</a></p></li>
 <li><p><a class="reference internal" href="#infrastructure">Infrastructure</a></p></li>
-<li><p><a class="reference internal" href="#package-structure">Package Structure</a></p></li>
 <li><p><a class="reference internal" href="#data-locations-where-this-workflow-has-been-validated">Data Locations where this Workflow has been Validated</a></p></li>
 <li><p><a class="reference internal" href="#development-pipeline-details">Development Pipeline Details</a></p></li>
 <li><p><a class="reference internal" href="#authors">Authors</a></p></li>
@@ -207,13 +205,17 @@ you can run the following command in your terminal:</p>
 to the necessary files and by leveraging the default global model. The following is
 a singularity exec command with options from both Singularity and the cloud masking
 application.</p>
-<p>Singularity options:
-- ‘-B’: mounts a filesystem from the host into the container
-- ‘–nv’: mount container binaries/devices</p>
-<p>vhr_cloumask_cli options:
-- ‘-r’: list of regex strings to find geotiff files to predict from
-- ‘-o’: output directory to store cloud masks
-- ‘-s’: pipeline step, to generate masks only we want to predict</p>
+<p>Singularity options:</p>
+<ul class="simple">
+<li><p>‘-B’: mounts a filesystem from the host into the container</p></li>
+<li><p>‘–nv’: mount container binaries/devices</p></li>
+</ul>
+<p>vhr_cloumask_cli options:</p>
+<ul class="simple">
+<li><p>‘-r’: list of regex strings to find geotiff files to predict from</p></li>
+<li><p>‘-o’: output directory to store cloud masks</p></li>
+<li><p>‘-s’: pipeline step, to generate masks only we want to predict</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>singularity exec --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects \
 /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif vhr-cloudmask-cli \
 -o &#39;/explore/nobackup/projects/ilab/test/vhr-cloudmask&#39; \
@@ -237,24 +239,6 @@ or from any system where the vhr-cloudmask package is installed.</p>
 inference of imagery. If no GPU is available, the process will continue as expected but with a large
 slowdown. There are no minimum system memory requirements given the sliding window procedures
 implemented in the inference process.</p>
-</section>
-<section id="package-structure">
-<h2>Package Structure<a class="headerlink" href="#package-structure" title="Permalink to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<p>├── archives              &lt;- Legacy code stored to historical reference
-├── docs                  &lt;- Default documentation for working with this project
-├── images                &lt;- Store project images
-├── notebooks             &lt;- Jupyter notebooks
-├── examples              &lt;- Examples for utilizing the library
-├── requirements          &lt;- Requirements for installing the dependencies
-├── scripts               &lt;- Utility scripts for analysis
-├── vhr_cloudmask         &lt;- Library source code
-├── README.md             &lt;- The top-level README for developers using this project
-├── CHANGELOG.md          &lt;- Releases documentation
-├── LICENSE               &lt;- License documentation
-└── setup.py              &lt;- Script to install library</p>
 </section>
 <section id="data-locations-where-this-workflow-has-been-validated">
 <h2>Data Locations where this Workflow has been Validated<a class="headerlink" href="#data-locations-where-this-workflow-has-been-validated" title="Permalink to this heading"></a></h2>
@@ -321,10 +305,12 @@ always be given.</p>
 <section id="report-bugs">
 <h3>Report Bugs<a class="headerlink" href="#report-bugs" title="Permalink to this heading"></a></h3>
 <p>Report bugs at <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues">https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues</a>.</p>
-<p>If you are reporting a bug, please include:
-- Your operating system name and version.
-- Any details about your local setup that might be helpful in troubleshooting.
-- Detailed steps to reproduce the bug.</p>
+<p>If you are reporting a bug, please include:</p>
+<ul class="simple">
+<li><p>Your operating system name and version.</p></li>
+<li><p>Any details about your local setup that might be helpful in troubleshooting.</p></li>
+<li><p>Detailed steps to reproduce the bug.</p></li>
+</ul>
 </section>
 <section id="fix-bugs">
 <h3>Fix Bugs<a class="headerlink" href="#fix-bugs" title="Permalink to this heading"></a></h3>
@@ -344,10 +330,12 @@ in docstrings, or even on the web in blog posts, articles, and such.</p>
 <section id="submit-feedback">
 <h3>Submit Feedback<a class="headerlink" href="#submit-feedback" title="Permalink to this heading"></a></h3>
 <p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues">https://github.com/nasa-nccs-hpda/vhr-cloudmask/issues</a>.</p>
-<p>If you are proposing a feature:
-- Explain in detail how it would work.
-- Keep the scope as narrow as possible, to make it easier to implement.
-- Remember that this is a volunteer-driven project, and that contributions are welcome :)</p>
+<p>If you are proposing a feature:</p>
+<ul class="simple">
+<li><p>Explain in detail how it would work.</p></li>
+<li><p>Keep the scope as narrow as possible, to make it easier to implement.</p></li>
+<li><p>Remember that this is a volunteer-driven project, and that contributions are welcome :)</p></li>
+</ul>
 </section>
 </section>
 <section id="citations">
@@ -363,9 +351,11 @@ Optimizing WorldView-2,-3 cloud masking using machine learning approaches. Remot
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
-<p>[1] Raschka, S., Patterson, J., &amp; Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.</p>
-<p>[2] Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, &lt;<a class="reference external" href="https://github.com/pytorch/pytorch">https://github.com/pytorch/pytorch</a>&gt;. Accessed 13 February 2020.</p>
-<p>[3] Caraballo-Vega, J., Carroll, M., Li, J., &amp; Duffy, D. (2021, December). Towards Scalable &amp; GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.</p>
+<ul class="simple">
+<li><p>Raschka, S., Patterson, J., &amp; Nolet, C. (2020). Machine learning in python: Main developments and technology trends in data science, machine learning, and artificial intelligence. Information, 11(4), 193.</p></li>
+<li><p>Paszke, Adam; Gross, Sam; Chintala, Soumith; Chanan, Gregory; et all, PyTorch, (2016), GitHub repository, &lt;<a class="reference external" href="https://github.com/pytorch/pytorch">https://github.com/pytorch/pytorch</a>&gt;. Accessed 13 February 2020.</p></li>
+<li><p>Caraballo-Vega, J., Carroll, M., Li, J., &amp; Duffy, D. (2021, December). Towards Scalable &amp; GPU Accelerated Earth Science Imagery Processing: An AI/ML Case Study. In AGU Fall Meeting 2021. AGU.</p></li>
+</ul>
 </section>
 </section>
 
