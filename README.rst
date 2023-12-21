@@ -34,6 +34,7 @@ for high performance and commodity base environments.
 - `Infrastructure`_
 - `Data Locations where this Workflow has been Validated`_
 - `Development Pipeline Details`_
+- `Manual Testing`_
 - `Authors`_
 - `Contributors`_
 - `Contributing`_
@@ -209,6 +210,16 @@ the regex to the files to predict, or the output directory, manually specify the
         -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
         -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
         -s predict
+
+Manual Testing
+====================
+
+For manual testing, you can always call the pytests component using the dev container for development. The following is
+an example of manually testing the package components.
+
+.. code:: python
+
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif pytest $NOBACKUP/development/vhr-cloudmask/tests
 
 Authors
 ====================

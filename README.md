@@ -176,6 +176,15 @@ singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBAC
   -s predict
 ```
 
+## Manual Testing
+
+For manual testing, you can always call the pytests component using the dev container for development. The following is
+an example of manually testing the package components.
+
+```bash
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif pytest $NOBACKUP/development/vhr-cloudmask/tests
+```
+
 ## Authors
 
 - Jordan Alexis Caraballo-Vega, jordan.a.caraballo-vega@nasa.gov
