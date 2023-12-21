@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>vhr-cloudmask &mdash; vhr-cloudmask 1.2.2 documentation</title>
+  <title>vhr-cloudmask &mdash; vhr-cloudmask 1.2.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
 
@@ -38,7 +38,7 @@
             vhr-cloudmask
           </a>
               <div class="version">
-                1.2.2
+                1.2.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -62,6 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#infrastructure">Infrastructure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-locations-where-this-workflow-has-been-validated">Data Locations where this Workflow has been Validated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#development-pipeline-details">Development Pipeline Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manual-testing">Manual Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#authors">Authors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contributors">Contributors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a><ul>
@@ -128,6 +129,7 @@ for high performance and commodity base environments.</p>
 <li><p><a class="reference internal" href="#infrastructure">Infrastructure</a></p></li>
 <li><p><a class="reference internal" href="#data-locations-where-this-workflow-has-been-validated">Data Locations where this Workflow has been Validated</a></p></li>
 <li><p><a class="reference internal" href="#development-pipeline-details">Development Pipeline Details</a></p></li>
+<li><p><a class="reference internal" href="#manual-testing">Manual Testing</a></p></li>
 <li><p><a class="reference internal" href="#authors">Authors</a></p></li>
 <li><p><a class="reference internal" href="#contributors">Contributors</a></p></li>
 <li><p><a class="reference internal" href="#contributing">Contributing</a></p></li>
@@ -280,6 +282,15 @@ python $NOBACKUP/development/vhr-cloudmask/vhr_cloudmask/view/cloudmask_cnn_pipe
 -s predict
 </pre></div>
 </div>
+</section>
+<section id="manual-testing">
+<h2>Manual Testing<a class="headerlink" href="#manual-testing" title="Permalink to this heading"></a></h2>
+<p>For manual testing, you can always call the pytests component using the dev container for development. The following is
+an example of manually testing the package components.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>singularity exec –env PYTHONPATH=”$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask” –nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif pytest $NOBACKUP/development/vhr-cloudmask/tests</p>
 </section>
 <section id="authors">
 <h2>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h2>
