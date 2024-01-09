@@ -18,7 +18,7 @@ for high performance and commodity base environments.
 
 - Library to process remote sensing imagery using GPU and CPU parallelization.
 - Machine learning and deep learning cloud segmentation of VHR imagery.
-- Large-scale image inference.
+- Large-scale image inference of very high-resolution imagery.
 
 ## Background
 
