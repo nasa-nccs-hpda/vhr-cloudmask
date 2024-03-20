@@ -1,12 +1,17 @@
 import os
 import re
+import cv2
 import time
 import logging
 import rasterio
 import numpy as np
 import xarray as xr
 import rioxarray as rxr
+import rasterio.features as riofeat
+
 from pathlib import Path
+from scipy import ndimage
+from skimage import color
 from omegaconf import OmegaConf
 from huggingface_hub import hf_hub_download
 
@@ -58,15 +63,14 @@ class CloudMaskPipeline(CNNSegmentation):
                 model_filename: str = None,
                 output_dir: str = None,
                 inference_regex_list: str = None,
+                input_bands: str = None,
+                output_bands: str = None,
+                postprocessing_steps: list = None,
                 default_config: str = 'templates/cloudmask_default.yaml',
                 logger=None
             ):
         """Constructor method
         """
-
-        # Set logger
-        self.logger = logger if logger is not None else self._set_logger()
-
         logging.info('Initializing CloudMaskPipeline')
 
         # Configuration file intialization
@@ -78,6 +82,9 @@ class CloudMaskPipeline(CNNSegmentation):
 
         # load configuration into object
         self.conf = self._read_config(config_filename, Config)
+
+        # Set logger
+        self.logger = logger if logger is not None else self._set_logger()
 
         # rewrite model filename option if given from CLI
         if model_filename is not None:
@@ -93,6 +100,18 @@ class CloudMaskPipeline(CNNSegmentation):
         # rewrite inference regex list
         if inference_regex_list is not None:
             self.conf.inference_regex_list = inference_regex_list
+
+        # rewrite input bands if given from CLI
+        if input_bands is not None:
+            self.conf.input_bands = input_bands
+
+        # rewrite output bands if given from CLI
+        if output_bands is not None:
+            self.conf.output_bands = output_bands
+
+        # rewrite postprocessing steps if given from CLI
+        if postprocessing_steps is not None:
+            self.conf.postprocessing_steps = postprocessing_steps
 
         # Set Data CSV
         self.data_csv = data_csv
@@ -125,8 +144,12 @@ class CloudMaskPipeline(CNNSegmentation):
         try:
             OmegaConf.save(
                 self.conf, os.path.join(self.model_dir, 'config.yaml'))
+            logging.info(f'Saved config under: {self.model_dir}')
         except PermissionError:
             logging.info('No permissions to save config, skipping step.')
+
+        logging.info(
+            f'Output GeoTIFF driver: {self.conf.prediction_driver}')
 
         # Seed everything
         seed_everything(self.conf.seed)
@@ -242,6 +265,11 @@ class CloudMaskPipeline(CNNSegmentation):
 
                     # open filename
                     image = rxr.open_rasterio(filename)
+
+                    # handle NTF files here, that differ from GeoTIFFs
+                    if Path(filename).suffix == '.ntf':
+                        image = image[0].to_array().squeeze()
+
                     logging.info(f'Prediction shape: {image.shape}')
 
                     # check bands in imagery, do not proceed if one band
@@ -293,6 +321,13 @@ class CloudMaskPipeline(CNNSegmentation):
                         probability_map=self.conf.probability_map
                     )
 
+                # apply default postprocessing
+                prediction = self.postprocessing(
+                    prediction, self.conf.postprocessing_steps)
+
+                # get cloud metrics for metadata
+                cloud_metadata = self.calc_metadata(prediction)
+
                 # Drop image band to allow for a merge of mask
                 image = image.drop(
                     dim="band",
@@ -312,11 +347,11 @@ class CloudMaskPipeline(CNNSegmentation):
                 prediction.attrs['long_name'] = (self.conf.experiment_type)
                 prediction.attrs['model_name'] = (model_filename)
 
-                # TODO: add metadata, need to locate this where we can get
-                # valid pixels (no nodata), to make the proper calculation
-                # prediction.attrs['pct_cloudcover_total'] = 100 * (
-                #    total cloudcover pixels / total valid image pixels)
+                # add cloud metadata to raster attributes
+                for mkey, mvalue in cloud_metadata.items():
+                    prediction.attrs[mkey] = (mvalue)
 
+                # transpose prediction for saving output
                 prediction = prediction.transpose("band", "y", "x")
 
                 # Set nodata values on mask
@@ -383,5 +418,110 @@ class CloudMaskPipeline(CNNSegmentation):
 
             # This is the case where the prediction was already saved
             else:
-                logging.info(f'{output_filename} already predicted.')
+                logging.info(f'{output_filename} is done or lock file exists.')
+
         return
+
+    # -------------------------------------------------------------------------
+    # postprocessing
+    # -------------------------------------------------------------------------
+    def postprocessing(
+                self,
+                prediction: np.ndarray,
+                postprocessing_steps: list = []
+            ) -> np.ndarray:
+
+        # sieve clearing of small objects
+        if 'sieve' in postprocessing_steps:
+            riofeat.sieve(prediction, 800, prediction, None, 8)
+
+        # cloud smoothing
+        if 'smooth' in postprocessing_steps:
+            prediction = ndimage.median_filter(prediction, size=20)
+
+        # binary fill holes
+        if 'fill' in postprocessing_steps:
+            prediction = ndimage.binary_fill_holes(prediction).astype(int)
+
+        # dilate
+        if 'dilate' in postprocessing_steps:
+
+            # get prediction and set cv2 format
+            prediction = np.uint8(np.squeeze(prediction) * 255)
+            _, thresh = cv2.threshold(prediction, 127, 255, 0)
+
+            # gather contours
+            contours, _ = cv2.findContours(
+                thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+
+            # set output contours
+            conts = np.zeros((thresh.shape[0], thresh.shape[1], 3))
+
+            # iterate over each contour and increase size
+            for c in contours:
+                c = self.scale_contour(c, 1.12)  # 1.05 looks decent
+                conts = cv2.drawContours(
+                    conts, [c], -1, (0, 255, 0), cv2.FILLED)
+
+            # converting mask into raster
+            prediction = color.rgb2gray(conts).astype('int16')
+            prediction[prediction > 0] = 1
+
+        return prediction
+
+    # -------------------------------------------------------------------------
+    # calc_metadata
+    # -------------------------------------------------------------------------
+    def calc_metadata(self, prediction: np.ndarray) -> dict:
+
+        # set metadata directory for cloud metadata
+        metadata_dict = {}
+
+        #  cloud percentage
+        metadata_dict['pct_cloudcover_total'] = self.calc_cloud_percentage(
+            prediction)
+
+        return metadata_dict
+
+    # -------------------------------------------------------------------------
+    # calc_metadata
+    # -------------------------------------------------------------------------
+    def calc_cloud_percentage(self, prediction: np.ndarray) -> float:
+
+        # get unique values per class
+        unique, counts = np.unique(prediction, return_counts=True)
+        unique_dict = dict(zip(unique, counts))
+
+        # get cloudy pixels
+        try:
+            non_cloud_pixels = unique_dict[0]
+        except IndexError:
+            non_cloud_pixels = 0
+
+        # get cloudy pixels
+        try:
+            cloud_pixels = unique_dict[1]
+        except IndexError:
+            cloud_pixels = 0
+
+        # percent cloud cover
+        pct_cloud_cover = round(
+            100 * (cloud_pixels / (non_cloud_pixels + cloud_pixels)), 2)
+
+        return pct_cloud_cover
+
+    # -------------------------------------------------------------------------
+    # scale_contour
+    # -------------------------------------------------------------------------
+    def scale_contour(self, cnt: np.ndarray, scale: float) -> np.ndarray:
+        M = cv2.moments(cnt)
+        try:
+            cx = int(M['m10']/M['m00'])
+            cy = int(M['m01']/M['m00'])
+        except ZeroDivisionError:
+            cx, cy = 0, 0
+
+        cnt_norm = cnt - [cx, cy]
+        cnt_scaled = cnt_norm * scale
+        cnt_scaled = cnt_scaled + [cx, cy]
+        return cnt_scaled.astype(np.int32)
