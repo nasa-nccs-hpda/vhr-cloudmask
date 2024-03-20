@@ -27,6 +27,7 @@ output_bands:
   - NIR1
 
 substract_labels: False
+#normalize: 2000.0
 normalize: 10000.0
 
 expand_dims: True
