@@ -14,3 +14,11 @@ class CloudMaskConfig(Config):
     test_classes: List[str] = field(
         default_factory=lambda: ['no-cloud', 'cloud', 'thin-cloud']
     )
+
+    # rewrite default output to be COG
+    prediction_driver: str = 'COG'
+
+    # postprocessing settings
+    postprocessing_steps: List[str] = field(
+        default_factory=lambda: ['sieve', 'smooth', 'fill', 'dilate']
+    )
