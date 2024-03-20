@@ -173,6 +173,9 @@ singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBAC
   -c $NOBACKUP/development/vhr-cloudmask/projects/cloud_cnn/configs/production/cloud_mask_alaska_senegal_3sl_cas.yaml \
   -o '/explore/nobackup/projects/ilab/test/vhr-cloudmask' \
   -r '/explore/nobackup/projects/3sl/data/Tappan/Tappan16*_data.tif' '/explore/nobackup/projects/3sl/data/Tappan/Tappan15*_data.tif' \
+  -ib B G R N G1 G2 \
+  -ob B G R N \
+  -ps sieve smooth fill dilate \
   -s predict
 ```
 
@@ -182,7 +185,7 @@ For manual testing, you can always call the pytests component using the dev cont
 an example of manually testing the package components.
 
 ```bash
-singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif pytest $NOBACKUP/development/vhr-cloudmask/tests
+singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects,/css/nga /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif pytest $NOBACKUP/development/vhr-cloudmask/tests
 ```
 
 ## Authors
