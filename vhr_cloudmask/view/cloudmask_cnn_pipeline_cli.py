@@ -68,6 +68,34 @@ def main():
                         help='Inference regex list',
                         default=['*.tif'])
 
+    parser.add_argument('-ib',
+                        '--input-bands',
+                        type=str,
+                        nargs='*',
+                        required=False,
+                        dest='input_bands',
+                        help='Inputs bands from incoming data',
+                        default=None)
+
+    parser.add_argument('-ob',
+                        '--output-bands',
+                        type=str,
+                        nargs='*',
+                        required=False,
+                        dest='output_bands',
+                        help='Output bands from incoming data',
+                        default=None)
+
+    parser.add_argument('-ps',
+                        '--postprocessing-steps',
+                        type=str,
+                        nargs='*',
+                        required=False,
+                        dest='postprocessing_steps',
+                        help='Postprocessing steps to perform',
+                        default=['sieve', 'smooth', 'fill', 'dilate'],
+                        choices=['sieve', 'smooth', 'fill', 'dilate'])
+
     args = parser.parse_args()
 
     # Setup timer to monitor script execution time
@@ -79,7 +107,10 @@ def main():
         args.data_csv,
         args.model_filename,
         args.output_dir,
-        args.inference_regex_list
+        args.inference_regex_list,
+        args.input_bands,
+        args.output_bands,
+        args.postprocessing_steps
     )
 
     # Regression CHM pipeline steps

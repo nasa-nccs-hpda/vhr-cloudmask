@@ -163,3 +163,14 @@ Approver Name, Email
 module load singularity
 singularity shell -B /att,/lscratch/jacaraba,/lscratch/jacaraba/singularity_tmp:/tmp,/adapt/nobackup/projects/ilab --nv terragpu/
 ```
+
+### Include in Development Notebook
+
+```python
+import sys
+
+sys.path.append('/explore/nobackup/people/$USER/.local/lib/python3.8/site-packages')
+sys.path.append('/home/$USER/.local/lib/python3.10/site-packages')
+sys.path.append('/explore/nobackup/people/$USER/development/tensorflow-caney')
+sys.path.append('/explore/nobackup/people/$USER/development/vhr-cloudmask')
+```
