@@ -219,7 +219,7 @@ an example of manually testing the package components.
 
 .. code:: python
 
-singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif pytest $NOBACKUP/development/vhr-cloudmask/tests
+        singularity exec --env PYTHONPATH="$NOBACKUP/development/tensorflow-caney:$NOBACKUP/development/vhr-cloudmask" --nv -B $NOBACKUP,/explore/nobackup/people,/explore/nobackup/projects /explore/nobackup/projects/ilab/containers/vhr-cloudmask.sif pytest $NOBACKUP/development/vhr-cloudmask/tests
 
 Authors
 ====================
