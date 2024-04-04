@@ -495,13 +495,13 @@ class CloudMaskPipeline(CNNSegmentation):
         # get cloudy pixels
         try:
             non_cloud_pixels = unique_dict[0]
-        except IndexError:
+        except (IndexError, KeyError):
             non_cloud_pixels = 0
 
         # get cloudy pixels
         try:
             cloud_pixels = unique_dict[1]
-        except IndexError:
+        except (IndexError, KeyError):
             cloud_pixels = 0
 
         # percent cloud cover
